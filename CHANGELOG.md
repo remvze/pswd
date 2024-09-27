@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.2](https://github.com/remvze/pswd/compare/v0.0.1...v0.0.2) (2024-09-27)
+
+
+### ✨ Features
+
+* add exclude symbols ([39a3de6](https://github.com/remvze/pswd/commit/39a3de6b100dec86dd722fa0ff671157fe7888f0))
+
 ### 0.0.1 (2024-09-27)
 
 
