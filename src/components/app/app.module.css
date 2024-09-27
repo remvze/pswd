@@ -125,7 +125,7 @@
             flex-grow: 1;
             width: 100%;
             min-width: 0;
-            accent-color: #6366f1;
+            accent-color: #a3e635;
           }
         }
       }
@@ -196,7 +196,7 @@
         }
 
         & input {
-          accent-color: #6366f1;
+          accent-color: #a3e635;
         }
       }
     }
