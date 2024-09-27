@@ -48,11 +48,13 @@ import { Container } from './container';
       <p>
         Passwords are generated entirely in your browser using the
         <code>window.crypto.getRandomValues</code> API, which provides cryptographically
-        secure random numbers. Our generation function carefully handles potential
-        biases by discarding values outside the desired range. All processing occurs
-        locally on your device, and no password data is ever sent to or stored on
-        our servers. This ensures that only you have access to your generated passwords,
-        maintaining your privacy and security.
+        secure random numbers. Our <a
+          href="https://github.com/remvze/pswd/blob/main/src/helpers/crypto.ts"
+          >generation function</a
+        > carefully handles potential biases by discarding values outside the desired
+        range. All processing occurs locally on your device, and no password data
+        is ever sent to or stored on our servers. This ensures that only you have
+        access to your generated passwords, maintaining your privacy and security.
       </p>
     </section>
   </section>
@@ -85,6 +87,12 @@ import { Container } from './container';
           color: var(--color-foreground);
           background-color: var(--color-neutral-100);
           border-radius: 4px;
+        }
+
+        & a {
+          font-weight: 500;
+          color: var(--color-foreground);
+          text-decoration: none;
         }
       }
     }
