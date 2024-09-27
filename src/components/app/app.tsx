@@ -1,12 +1,19 @@
 import { useEffect, useState, useCallback } from 'react';
-import { FaRegCopy, FaArrowRotateLeft } from 'react-icons/fa6';
+import {
+  FaRegCopy,
+  FaArrowRotateLeft,
+  FaCheck,
+  FaRegEye,
+  FaRegEyeSlash,
+} from 'react-icons/fa6';
 
 import { Container } from '../container';
 
+import { useCopy } from '@/hooks/use-copy';
 import { getSecureRandomInt } from '@/helpers/number';
+import { capitalizeString } from '@/helpers/string';
 
 import styles from './app.module.css';
-import { capitalizeString } from '@/helpers/string';
 
 const WORDLIST = [
   'apple',
@@ -23,6 +30,8 @@ const WORDLIST = [
 
 export function App() {
   const [activeTab, setActiveTab] = useState<'normal' | 'diceware'>('normal');
+  const { copy, copying } = useCopy();
+  const [showPassword, setShowPassword] = useState(true);
 
   const [password, setPassword] = useState('');
   const [length, setLength] = useState(12);
@@ -83,11 +92,6 @@ export function App() {
         return;
       }
 
-      // if (wordCount < 3 || wordCount > 10) {
-      //   alert('Please select a word count between 3 and 10.');
-      //   return;
-      // }
-
       const words = [];
       const wordlistLength = WORDLIST.length;
 
@@ -122,17 +126,6 @@ export function App() {
     generatePassword();
   }, [activeTab, generatePassword]);
 
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text).then(
-      () => {
-        alert('Copied to clipboard!');
-      },
-      () => {
-        alert('Failed to copy!');
-      },
-    );
-  };
-
   return (
     <Container>
       <div className={styles.generator}>
@@ -152,12 +145,19 @@ export function App() {
         </div>
 
         <div className={styles.result}>
-          <input readOnly type="text" value={password} />
+          <input
+            readOnly
+            type={showPassword ? 'text' : 'password'}
+            value={password}
+          />
           <button
-            className={styles.copy}
-            onClick={() => copyToClipboard(password)}
+            className={styles.hide}
+            onClick={() => setShowPassword(prev => !prev)}
           >
-            <FaRegCopy />
+            {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+          </button>
+          <button className={styles.copy} onClick={() => copy(password)}>
+            {copying ? <FaCheck /> : <FaRegCopy />}
           </button>
           <button
             className={styles.generate}

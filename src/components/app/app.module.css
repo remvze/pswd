@@ -75,6 +75,13 @@
         color: var(--color-neutral-50);
         background-color: var(--color-neutral-950);
       }
+
+      &.hide {
+        width: 30px;
+        font-size: var(--font-sm);
+        color: var(--color-foreground-subtler);
+        background-color: transparent;
+      }
     }
   }
 
