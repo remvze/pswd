@@ -212,6 +212,7 @@
   & a {
     font-weight: 500;
     color: var(--color-foreground);
-    text-decoration: none;
+    text-decoration-style: dotted;
+    text-decoration-color: #a3e635;
   }
 }
