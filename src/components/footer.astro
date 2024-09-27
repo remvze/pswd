@@ -1,0 +1,41 @@
+---
+import { Container } from './container';
+---
+
+<Container>
+  <footer class="footer">
+    <p>
+      Created by <a href="https://x.com/remvze" rel="noreferrer" target="_blank"
+        >Maze</a
+      >.
+    </p>
+    <p>
+      Source code on <a
+        href="https://github.com/remvze/pswd"
+        rel="noreferrer"
+        target="_blank">GitHub</a
+      >.
+    </p>
+  </footer>
+</Container>
+
+<style>
+  .footer {
+    padding-bottom: 40px;
+
+    & p {
+      font-size: var(--font-sm);
+      color: var(--color-foreground-subtle);
+
+      &:not(:last-of-type) {
+        margin-bottom: 8px;
+      }
+
+      & a {
+        font-weight: 500;
+        color: var(--color-foreground);
+        text-decoration: none;
+      }
+    }
+  }
+</style>
