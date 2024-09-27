@@ -17,6 +17,7 @@ import { capitalizeString } from '@/helpers/string';
 import { wordlist } from '@/data/wordlist';
 
 import styles from './app.module.css';
+import { cn } from '@/helpers/styles';
 
 const WORDLIST = wordlist;
 
@@ -57,6 +58,10 @@ export function App() {
     'pswd-custom-symbols',
     '',
   );
+  const [excludeSymbols, setExcludeSymbols] = useLocalStorage(
+    'pswd-exclude-symbols',
+    '',
+  );
 
   const [wordCount, setWordCount] = useLocalStorage('pswd-word-count', 6);
   const [separator, setSeparator] = useLocalStorage('pswd-separator', 'space');
@@ -82,8 +87,19 @@ export function App() {
         characterSet += customSymbols;
       }
 
+      let toExclude = '';
+
       if (excludeSimilar) {
-        const regex = new RegExp(`[${SIMILAR_CHARACTERS}]`, 'g');
+        toExclude += SIMILAR_CHARACTERS;
+      }
+
+      if (excludeSymbols) {
+        toExclude += excludeSymbols;
+      }
+
+      if (toExclude) {
+        const regex = new RegExp(`[${toExclude}]`, 'g');
+
         characterSet = characterSet.replace(regex, '');
       }
 
@@ -136,6 +152,7 @@ export function App() {
     excludeSimilar,
     customSymbols,
     capitalize,
+    excludeSymbols,
   ]);
 
   useEffect(() => {
@@ -147,13 +164,13 @@ export function App() {
       <div className={styles.generator}>
         <div className={styles.tabs}>
           <button
-            className={activeTab === 'normal' && styles.active}
+            className={cn(activeTab === 'normal' && styles.active)}
             onClick={() => setActiveTab('normal')}
           >
             Password
           </button>
           <button
-            className={activeTab === 'diceware' && styles.active}
+            className={cn(activeTab === 'diceware' && styles.active)}
             onClick={() => setActiveTab('diceware')}
           >
             Passphrase
@@ -253,7 +270,7 @@ export function App() {
                 Exclude Similar Characters (e.g., l, 1, O, 0)
               </label>
 
-              <div className={styles.customSymbols}>
+              <div className={styles.custom}>
                 <label htmlFor="customSymbols">Custom Symbols:</label>
                 <input
                   id="customSymbols"
@@ -261,6 +278,17 @@ export function App() {
                   type="text"
                   value={customSymbols}
                   onChange={e => setCustomSymbols(e.target.value)}
+                />
+              </div>
+
+              <div className={styles.custom}>
+                <label htmlFor="excludeSymbols">Exclude Symbols:</label>
+                <input
+                  id="excludeSymbols"
+                  placeholder="e.g., /\?"
+                  type="text"
+                  value={excludeSymbols}
+                  onChange={e => setExcludeSymbols(e.target.value)}
                 />
               </div>
             </div>
