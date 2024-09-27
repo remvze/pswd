@@ -150,13 +150,13 @@ export function App() {
             className={activeTab === 'normal' && styles.active}
             onClick={() => setActiveTab('normal')}
           >
-            Normal
+            Password
           </button>
           <button
             className={activeTab === 'diceware' && styles.active}
             onClick={() => setActiveTab('diceware')}
           >
-            Diceware
+            Passphrase
           </button>
         </div>
 
