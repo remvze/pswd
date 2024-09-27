@@ -13,20 +13,11 @@ import { useCopy } from '@/hooks/use-copy';
 import { getSecureRandomInt } from '@/helpers/number';
 import { capitalizeString } from '@/helpers/string';
 
+import { wordlist } from '@/data/wordlist';
+
 import styles from './app.module.css';
 
-const WORDLIST = [
-  'apple',
-  'banana',
-  'cherry',
-  'delta',
-  'echo',
-  'foxtrot',
-  'golf',
-  'hotel',
-  'india',
-  'juliet',
-];
+const WORDLIST = wordlist;
 
 export function App() {
   const [activeTab, setActiveTab] = useState<'normal' | 'diceware'>('normal');
