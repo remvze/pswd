@@ -2,9 +2,11 @@
 import Layout from '@/layouts/layout.astro';
 import { App } from '@/components/app';
 import Hero from '@/components/hero.astro';
+import Description from '@/components/description.astro';
 ---
 
 <Layout>
   <Hero />
   <App client:load />
+  <Description />
 </Layout>
