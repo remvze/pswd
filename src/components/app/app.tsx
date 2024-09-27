@@ -11,7 +11,7 @@ import { Container } from '../container';
 
 import { useCopy } from '@/hooks/use-copy';
 import { useLocalStorage } from '@/hooks/use-local-storage';
-import { getSecureRandomInt } from '@/helpers/number';
+import { getSecureRandomInt } from '@/helpers/crypto';
 import { capitalizeString } from '@/helpers/string';
 
 import { wordlist } from '@/data/wordlist';
