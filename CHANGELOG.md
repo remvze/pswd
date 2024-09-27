@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.3](https://github.com/remvze/pswd/compare/v0.0.2...v0.0.3) (2024-09-27)
+
+
+### ♻️ Code Refactoring
+
+* separate cryptography related helper ([a25a9ef](https://github.com/remvze/pswd/commit/a25a9ef16ce5c3e0b8b60c5a768bfd7fc6d4ed4d))
+
+
+### ✨ Features
+
+* add crypto explanation ([277a812](https://github.com/remvze/pswd/commit/277a8124091d66fe3e324427ee98f93b10a419e5))
+* add link to the cryptography helper file ([1b9b888](https://github.com/remvze/pswd/commit/1b9b888c791a8f292e488eaa09b1c3e35a727c10))
+
+
+### 💄 Styling
+
+* add accent to donation link ([7573a31](https://github.com/remvze/pswd/commit/7573a310375152e725892dc6d388546e81d25b32))
+
 ### [0.0.2](https://github.com/remvze/pswd/compare/v0.0.1...v0.0.2) (2024-09-27)
 
 
