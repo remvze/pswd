@@ -1,0 +1,53 @@
+/* inter-regular - latin */
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/inter-v13-latin-regular.woff2') format('woff2');
+  font-display: swap;
+}
+
+/* inter-500 - latin */
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  src: url('/fonts/inter-v13-latin-500.woff2') format('woff2');
+  font-display: swap;
+}
+
+/* lora-regular - latin */
+@font-face {
+  font-family: Lora;
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/lora-v35-latin-regular.woff2') format('woff2');
+  font-display: swap;
+}
+
+/* space-mono-regular - latin */
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/space-mono-v13-latin-regular.woff2') format('woff2');
+  font-display: swap;
+}
+
+/* space-mono-700 - latin */
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/fonts/space-mono-v13-latin-700.woff2') format('woff2');
+  font-display: swap;
+}
+
+/* instrument-serif-regular - latin */
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/instrument-serif-v4-latin-regular.woff2') format('woff2');
+  font-display: swap;
+}
