@@ -1,6 +1,4 @@
 .generator {
-  padding: 100px 0;
-
   & .tabs {
     display: flex;
     column-gap: 8px;

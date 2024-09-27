@@ -16,15 +16,6 @@
   font-display: swap;
 }
 
-/* lora-regular - latin */
-@font-face {
-  font-family: Lora;
-  font-style: normal;
-  font-weight: 400;
-  src: url('/fonts/lora-v35-latin-regular.woff2') format('woff2');
-  font-display: swap;
-}
-
 /* space-mono-regular - latin */
 @font-face {
   font-family: 'Space Mono';
@@ -43,11 +34,11 @@
   font-display: swap;
 }
 
-/* instrument-serif-regular - latin */
+/* bebas-neue-regular - latin */
 @font-face {
-  font-family: 'Instrument Serif';
+  font-family: 'Bebas Neue';
   font-style: normal;
   font-weight: 400;
-  src: url('/fonts/instrument-serif-v4-latin-regular.woff2') format('woff2');
+  src: url('/fonts/bebas-neue-v14-latin-regular.woff2') format('woff2');
   font-display: swap;
 }

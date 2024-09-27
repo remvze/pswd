@@ -1,0 +1,43 @@
+---
+import { Container } from './container';
+---
+
+<Container>
+  <section class="hero">
+    <div class="title">
+      <h1>PSWD</h1>
+      <img alt="PSWD Logo" class="logo" src="/logo.svg" />
+    </div>
+    <p>Simple secure password generator.</p>
+  </section>
+</Container>
+
+<style>
+  .hero {
+    padding: 100px 0 40px;
+
+    & .title {
+      display: flex;
+      column-gap: 8px;
+      align-items: center;
+      margin-bottom: 6px;
+
+      & .logo {
+        height: 24px;
+        opacity: 0.2;
+        transform: translateY(-2px);
+      }
+
+      & h1 {
+        font-family: var(--font-display);
+        font-size: var(--font-2xlg);
+        line-height: 0;
+      }
+    }
+
+    & p {
+      font-size: var(--font-sm);
+      color: var(--color-foreground-subtle);
+    }
+  }
+</style>
