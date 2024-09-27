@@ -10,6 +10,7 @@ import {
 import { Container } from '../container';
 
 import { useCopy } from '@/hooks/use-copy';
+import { useLocalStorage } from '@/hooks/use-local-storage';
 import { getSecureRandomInt } from '@/helpers/number';
 import { capitalizeString } from '@/helpers/string';
 
@@ -20,22 +21,46 @@ import styles from './app.module.css';
 const WORDLIST = wordlist;
 
 export function App() {
-  const [activeTab, setActiveTab] = useState<'normal' | 'diceware'>('normal');
+  const [activeTab, setActiveTab] = useLocalStorage<'normal' | 'diceware'>(
+    'pswd-active-tab',
+    'normal',
+  );
   const { copy, copying } = useCopy();
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useLocalStorage(
+    'pswd-show-password',
+    true,
+  );
 
   const [password, setPassword] = useState('');
-  const [length, setLength] = useState(12);
-  const [includeUpper, setIncludeUpper] = useState(true);
-  const [includeLower, setIncludeLower] = useState(true);
-  const [includeNumbers, setIncludeNumbers] = useState(true);
-  const [includeSymbols, setIncludeSymbols] = useState(true);
-  const [excludeSimilar, setExcludeSimilar] = useState(false);
-  const [customSymbols, setCustomSymbols] = useState('');
+  const [length, setLength] = useLocalStorage('pswd-length', 12);
+  const [includeUpper, setIncludeUpper] = useLocalStorage(
+    'pswd-include-upper',
+    true,
+  );
+  const [includeLower, setIncludeLower] = useLocalStorage(
+    'pswd-include-lower',
+    true,
+  );
+  const [includeNumbers, setIncludeNumbers] = useLocalStorage(
+    'pswd-include-numbers',
+    true,
+  );
+  const [includeSymbols, setIncludeSymbols] = useLocalStorage(
+    'pswd-include-symbols',
+    true,
+  );
+  const [excludeSimilar, setExcludeSimilar] = useLocalStorage(
+    'pswd-exclude-similar',
+    false,
+  );
+  const [customSymbols, setCustomSymbols] = useLocalStorage(
+    'pswd-custom-symbols',
+    '',
+  );
 
-  const [wordCount, setWordCount] = useState(6);
-  const [separator, setSeparator] = useState('space');
-  const [capitalize, setCapitalize] = useState(false);
+  const [wordCount, setWordCount] = useLocalStorage('pswd-word-count', 6);
+  const [separator, setSeparator] = useLocalStorage('pswd-separator', 'space');
+  const [capitalize, setCapitalize] = useLocalStorage('pswd-capitalize', false);
 
   const UPPERCASE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const LOWERCASE = 'abcdefghijklmnopqrstuvwxyz';
