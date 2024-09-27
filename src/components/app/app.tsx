@@ -276,7 +276,7 @@ export function App() {
                 <div className={styles.inputs}>
                   <input
                     id="count"
-                    max="12"
+                    max="20"
                     min="3"
                     type="number"
                     value={wordCount}
@@ -284,7 +284,7 @@ export function App() {
                   />
 
                   <input
-                    max="12"
+                    max="20"
                     min="3"
                     type="range"
                     value={wordCount}
