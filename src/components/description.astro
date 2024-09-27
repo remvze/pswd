@@ -42,6 +42,19 @@ import { Container } from './container';
         accounts are safeguarded with reliable passwords.
       </p>
     </section>
+
+    <section>
+      <h2>How Are Passwords Generated in PSWD?</h2>
+      <p>
+        Passwords are generated entirely in your browser using the
+        <code>window.crypto.getRandomValues</code> API, which provides cryptographically
+        secure random numbers. Our generation function carefully handles potential
+        biases by discarding values outside the desired range. All processing occurs
+        locally on your device, and no password data is ever sent to or stored on
+        our servers. This ensures that only you have access to your generated passwords,
+        maintaining your privacy and security.
+      </p>
+    </section>
   </section>
 </Container>
 
@@ -64,6 +77,15 @@ import { Container } from './container';
       & p {
         line-height: 1.6;
         color: var(--color-foreground-subtle);
+
+        & code {
+          padding: 2px 8px;
+          font-family: var(--font-mono);
+          font-size: var(--font-sm);
+          color: var(--color-foreground);
+          background-color: var(--color-neutral-100);
+          border-radius: 4px;
+        }
       }
     }
   }
