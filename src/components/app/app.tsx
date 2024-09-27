@@ -317,6 +317,11 @@ export function App() {
           </div>
         )}
       </div>
+
+      <p className={styles.donate}>
+        Support me with a <a href="https://buymeacoffee.com/remvze">donation</a>
+        .
+      </p>
     </Container>
   );
 }
