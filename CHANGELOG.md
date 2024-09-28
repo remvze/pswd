@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.4](https://github.com/remvze/pswd/compare/v0.0.3...v0.0.4) (2024-09-28)
+
+
+### ✨ Features
+
+* add estimated crack time ([7c5c25a](https://github.com/remvze/pswd/commit/7c5c25af52d14f8b8c837203027522918d8ab988))
+
 ### [0.0.3](https://github.com/remvze/pswd/compare/v0.0.2...v0.0.3) (2024-09-27)
 
 
