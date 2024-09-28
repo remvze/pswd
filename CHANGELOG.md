@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.6](https://github.com/remvze/pswd/compare/v0.0.5...v0.0.6) (2024-09-28)
+
+
+### ✨ Features
+
+* add strength score ([54782ac](https://github.com/remvze/pswd/commit/54782ac49c3407dd1f601c2553eb3e3559ff4105))
+
 ### [0.0.5](https://github.com/remvze/pswd/compare/v0.0.4...v0.0.5) (2024-09-28)
 
 
