@@ -83,6 +83,46 @@
     }
   }
 
+  & .crackTime {
+    padding: 12px 0 12px 12px;
+    margin-bottom: 16px;
+    font-size: var(--font-sm);
+    line-height: 1.6;
+    color: var(--color-foreground-subtle);
+    background: linear-gradient(90deg, var(--color-neutral-100), transparent);
+    border-left: 2px solid var(--color-neutral-200);
+    border-radius: 8px;
+
+    & .mono {
+      font-family: var(--font-mono);
+      color: var(--color-foreground);
+    }
+
+    & .attempts {
+      margin-top: 8px;
+      font-size: var(--font-xsm);
+
+      & .mono {
+        & .accent {
+          color: #a3e635;
+        }
+
+        & sup {
+          font-size: var(--font-2xsm);
+          color: var(--color-foreground-subtle);
+        }
+      }
+
+      & .text {
+        padding-left: 4px;
+
+        & span {
+          color: var(--color-foreground-subtler);
+        }
+      }
+    }
+  }
+
   & .tabContent {
     padding: 20px;
     border: 1px dashed var(--color-neutral-100);

@@ -6,6 +6,7 @@ import {
   FaRegEye,
   FaRegEyeSlash,
 } from 'react-icons/fa6';
+import zxcvbn from 'zxcvbn';
 
 import { Container } from '../container';
 
@@ -18,6 +19,7 @@ import { wordlist } from '@/data/wordlist';
 
 import styles from './app.module.css';
 import { cn } from '@/helpers/styles';
+import { formatSeconds } from '@/helpers/time';
 
 const WORDLIST = wordlist;
 
@@ -159,6 +161,22 @@ export function App() {
     generatePassword();
   }, [activeTab, generatePassword]);
 
+  const [crackTime, setCrackTime] = useState('');
+
+  useEffect(() => {
+    if (password) {
+      const result = zxcvbn(password);
+      setCrackTime(
+        formatSeconds(
+          result.crack_times_seconds
+            .offline_fast_hashing_1e10_per_second as number,
+        ),
+      );
+    } else {
+      setCrackTime('');
+    }
+  }, [password]);
+
   return (
     <Container>
       <div className={styles.generator}>
@@ -200,6 +218,20 @@ export function App() {
           </button>
         </div>
 
+        {crackTime && (
+          <div className={styles.crackTime}>
+            Crack Time: <span className={styles.mono}>{crackTime}</span>
+            <p className={styles.attempts}>
+              <span className={styles.mono}>
+                <span className={styles.accent}>*</span> 10<sup>10</sup>
+              </span>{' '}
+              <span className={styles.text}>
+                hash attempts <span>/ second</span>
+              </span>
+            </p>
+          </div>
+        )}
+
         {activeTab === 'normal' && (
           <div className={styles.tabContent}>
             <div className={styles.controls}>
@@ -208,7 +240,7 @@ export function App() {
                 <div className={styles.inputs}>
                   <input
                     id="length"
-                    max="128"
+                    max="90"
                     min="8"
                     type="number"
                     value={length}
@@ -216,7 +248,7 @@ export function App() {
                   />
 
                   <input
-                    max="128"
+                    max="90"
                     min="8"
                     type="range"
                     value={length}
