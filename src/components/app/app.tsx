@@ -162,18 +162,31 @@ export function App() {
   }, [activeTab, generatePassword]);
 
   const [crackTime, setCrackTime] = useState('');
+  const [strength, setStrength] = useState(0);
+  const strenthColor = [
+    'transparent',
+    '#ef4444',
+    '#f97316',
+    '#eab308',
+    '#65a30d',
+    '#22c55e',
+  ][strength];
 
   useEffect(() => {
     if (password) {
       const result = zxcvbn(password);
+
       setCrackTime(
         formatSeconds(
           result.crack_times_seconds
             .offline_fast_hashing_1e10_per_second as number,
         ),
       );
+
+      setStrength(result.score + 1);
     } else {
       setCrackTime('');
+      setStrength(0);
     }
   }, [password]);
 
@@ -195,27 +208,39 @@ export function App() {
           </button>
         </div>
 
-        <div className={styles.result}>
-          <input
-            readOnly
-            type={showPassword ? 'text' : 'password'}
-            value={password}
-          />
-          <button
-            className={styles.hide}
-            onClick={() => setShowPassword(prev => !prev)}
-          >
-            {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
-          </button>
-          <button className={styles.copy} onClick={() => copy(password)}>
-            {copying ? <FaCheck /> : <FaRegCopy />}
-          </button>
-          <button
-            className={styles.generate}
-            onClick={() => generatePassword()}
-          >
-            <FaArrowRotateLeft />
-          </button>
+        <div className={styles.resultWrapper}>
+          <div className={styles.score}>
+            <div
+              className={styles.filled}
+              style={{
+                background: strenthColor,
+                height: `${(strength / 5) * 100}%`,
+              }}
+            />
+          </div>
+
+          <div className={styles.result}>
+            <input
+              readOnly
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+            />
+            <button
+              className={styles.hide}
+              onClick={() => setShowPassword(prev => !prev)}
+            >
+              {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+            </button>
+            <button className={styles.copy} onClick={() => copy(password)}>
+              {copying ? <FaCheck /> : <FaRegCopy />}
+            </button>
+            <button
+              className={styles.generate}
+              onClick={() => generatePassword()}
+            >
+              <FaArrowRotateLeft />
+            </button>
+          </div>
         </div>
 
         {crackTime && (
@@ -247,7 +272,7 @@ export function App() {
                   <input
                     id="length"
                     max="90"
-                    min="8"
+                    min="3"
                     type="number"
                     value={length}
                     onChange={e => setLength(Number(e.target.value))}
@@ -255,7 +280,7 @@ export function App() {
 
                   <input
                     max="90"
-                    min="8"
+                    min="3"
                     type="range"
                     value={length}
                     onChange={e => setLength(Number(e.target.value))}
