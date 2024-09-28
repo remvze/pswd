@@ -220,7 +220,13 @@ export function App() {
 
         {crackTime && (
           <div className={styles.crackTime}>
-            Crack Time: <span className={styles.mono}>{crackTime}</span>
+            <p className={styles.time}>
+              <span className={styles.label}>Crack Time:</span>
+              <span className={styles.truncate}>
+                <span className={styles.mono}>{crackTime}</span>
+              </span>
+            </p>
+
             <p className={styles.attempts}>
               <span className={styles.mono}>
                 <span className={styles.accent}>*</span> 10<sup>10</sup>

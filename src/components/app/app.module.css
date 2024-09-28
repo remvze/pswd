@@ -93,6 +93,25 @@
     border-left: 2px solid var(--color-neutral-200);
     border-radius: 8px;
 
+    & .time {
+      display: flex;
+      column-gap: 8px;
+      align-items: center;
+
+      & .label {
+        min-width: max-content;
+      }
+
+      & .truncate {
+        display: inline-block;
+        flex-grow: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        vertical-align: bottom;
+      }
+    }
+
     & .mono {
       font-family: var(--font-mono);
       color: var(--color-foreground);
