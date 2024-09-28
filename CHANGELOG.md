@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://github.com/remvze/pswd/compare/v0.0.4...v0.0.5) (2024-09-28)
+
+
+### 💄 Styling
+
+* truncate years ([ea6cd3f](https://github.com/remvze/pswd/commit/ea6cd3f5b874d3e6fb569b254bb796db7246bef4))
+
 ### [0.0.4](https://github.com/remvze/pswd/compare/v0.0.3...v0.0.4) (2024-09-28)
 
 
