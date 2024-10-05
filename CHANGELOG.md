@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.7](https://github.com/remvze/pswd/compare/v0.0.6...v0.0.7) (2024-10-05)
+
+
+### ✨ Features
+
+* add custom wordlist ([7bb6caa](https://github.com/remvze/pswd/commit/7bb6caa1df4535842995f5264eefcd81d637e292))
+* get length and word count from url params ([9ba2f17](https://github.com/remvze/pswd/commit/9ba2f17f98aba54c3fb525bd932ca54f91c5e2a3))
+
 ### [0.0.6](https://github.com/remvze/pswd/compare/v0.0.5...v0.0.6) (2024-09-28)
 
 
