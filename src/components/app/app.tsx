@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import {
   FaRegCopy,
   FaArrowRotateLeft,
@@ -68,6 +68,20 @@ export function App() {
   const [wordCount, setWordCount] = useLocalStorage('pswd-word-count', 6);
   const [separator, setSeparator] = useLocalStorage('pswd-separator', 'space');
   const [capitalize, setCapitalize] = useLocalStorage('pswd-capitalize', false);
+  const [customWordlist, setCustomWordlist] = useLocalStorage(
+    'pswd-custom-wordlist',
+    '',
+  );
+
+  const wordlist = useMemo(() => {
+    const custom = customWordlist
+      .split('\n')
+      .map(item => item.trim())
+      .filter(item => !!item);
+
+    if (custom.length > 0) return custom;
+    return WORDLIST;
+  }, [customWordlist]);
 
   const UPPERCASE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const LOWERCASE = 'abcdefghijklmnopqrstuvwxyz';
@@ -121,17 +135,17 @@ export function App() {
       const newPassword = passwordCharacters.join('');
       setPassword(newPassword);
     } else {
-      if (WORDLIST.length === 0) {
+      if (wordlist.length === 0) {
         alert('Wordlist is empty. Please provide a valid wordlist.');
         return;
       }
 
       const words = [];
-      const wordlistLength = WORDLIST.length;
+      const wordlistLength = wordlist.length;
 
       for (let i = 0; i < wordCount; i++) {
         const index = getSecureRandomInt(wordlistLength);
-        const word = WORDLIST[index];
+        const word = wordlist[index];
 
         words.push(capitalize ? capitalizeString(word) : word);
       }
@@ -155,6 +169,7 @@ export function App() {
     customSymbols,
     capitalize,
     excludeSymbols,
+    wordlist,
   ]);
 
   useEffect(() => {
@@ -403,6 +418,17 @@ export function App() {
                   <option value="dash">Dash</option>
                   <option value="none">None</option>
                 </select>
+              </div>
+
+              <div className={styles.customWordlist}>
+                <label htmlFor="wordlist">
+                  Custom Wordlist <span>(separate with breaklines)</span>:
+                </label>
+                <textarea
+                  id="wordlist"
+                  value={customWordlist}
+                  onChange={e => setCustomWordlist(e.target.value)}
+                />
               </div>
             </div>
           </div>
