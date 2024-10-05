@@ -73,6 +73,20 @@ export function App() {
     '',
   );
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const length = Number(urlParams.get('length'));
+    const words = Number(urlParams.get('words'));
+
+    if (length > 0) {
+      setLength(length);
+      setActiveTab('normal');
+    } else if (words > 0) {
+      setWordCount(words);
+      setActiveTab('diceware');
+    }
+  }, [setLength, setActiveTab, setWordCount]);
+
   const wordlist = useMemo(() => {
     const custom = customWordlist
       .split('\n')
