@@ -1,43 +1,47 @@
 ---
 import { Container } from './container';
+import Matrix from './matrix.astro';
 ---
 
 <Container>
   <section class="hero">
+    <Matrix />
     <div class="title">
       <div class="logo"><img alt="Passcure Logo" src="/logo.svg" /></div>
-      <h1>Passcure <span>_</span></h1>
+      <h1>Passcure</h1>
     </div>
-    <p>Password generation made simple.</p>
+    <p>Simple password generation.</p>
   </section>
 </Container>
 
 <style>
   .hero {
+    position: relative;
     padding: 100px 0 40px;
+    text-align: center;
 
     & .logo {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 32px;
-      height: 32px;
-      margin-bottom: 12px;
+      width: 40px;
+      height: 40px;
+      margin: 0 auto 16px;
       background-color: var(--color-neutral-100);
       border: 1px solid var(--color-neutral-200);
-      border-radius: 8px;
+      border-radius: 12px;
       box-shadow:
-        inset 0 1px 0 var(--color-neutral-50),
-        inset 0 -1px 0 var(--color-neutral-300);
+        inset 0 -1px 0 var(--color-neutral-50),
+        inset 0 1px 0 var(--color-neutral-400);
 
       & img {
-        height: 60%;
-        opacity: 0.7;
+        height: 55%;
+        opacity: 0.8;
       }
     }
 
     & h1 {
-      margin-bottom: 2px;
+      margin-bottom: 4px;
       font-family: var(--font-display);
       font-size: var(--font-md);
       font-weight: 600;
