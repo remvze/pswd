@@ -38,22 +38,20 @@
       'z',
     ],
     fallingCharArr = [],
-    fontSize = 10,
-    cw = window.innerWidth,
-    ch = window.innerHeight,
-    maxColums = Math.floor(cw / fontSize),
-    prevWidth = cw; // Track the previous width
+    fontSize = 14,
+    cw,
+    ch,
+    maxColums,
+    prevWidth;
 
-  // Set initial canvas sizes
-  canvas.width = canvas2.width = cw;
-  canvas.height = canvas2.height = ch;
-
-  // Function to recalculate canvas size on window resize
+  // Function to recalculate canvas size based on the parent `.matrix` element
   function resizeCanvas() {
-    cw = window.innerWidth;
-    ch = window.innerHeight;
+    var matrix = document.querySelector('.matrix');
+    cw = matrix.clientWidth;
+    ch = matrix.clientHeight;
 
     if (cw !== prevWidth) {
+      prevWidth = cw;
       maxColums = Math.floor(cw / fontSize);
 
       // Adjust the canvas size
@@ -74,8 +72,6 @@
     }
   }
 
-  resizeCanvas();
-
   // Helper functions
   function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
@@ -93,7 +89,7 @@
   // Method to draw a character
   Point.prototype.draw = function (ctx) {
     this.value = charArr[randomInt(0, charArr.length - 1)].toUpperCase();
-    this.speed = randomFloat(1, 5);
+    this.speed = randomFloat(0.5, 2);
 
     ctx2.fillStyle = 'rgba(255,255,255,0.8)';
     ctx2.font = fontSize + 'px san-serif';
@@ -130,8 +126,18 @@
     requestAnimationFrame(update);
   }
 
-  // Event listener for window resize
-  window.addEventListener('resize', resizeCanvas);
+  // Use ResizeObserver to detect changes in the size of `.matrix`
+  var matrix = document.querySelector('.matrix');
+  var resizeObserver = new ResizeObserver(entries => {
+    for (let entry of entries) {
+      if (entry.contentRect) {
+        resizeCanvas(); // Adjust the canvas size when the parent changes size
+      }
+    }
+  });
+
+  // Observe the matrix element
+  resizeObserver.observe(matrix);
 
   // Start the animation
   update();
@@ -161,7 +167,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(rgb(9 9 11 / 60%), var(--color-neutral-50));
+    background: linear-gradient(rgb(9 9 11 / 65%), var(--color-neutral-50));
     backdrop-filter: grayscale(100%);
   }
 </style>
