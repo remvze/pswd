@@ -5,10 +5,10 @@ import { Container } from './container';
 <Container>
   <section class="hero">
     <div class="title">
-      <h1>PSWD</h1>
-      <img alt="PSWD Logo" class="logo" src="/logo.svg" />
+      <div class="logo"><img alt="Passcure Logo" src="/logo.svg" /></div>
+      <h1>Passcure <span>_</span></h1>
     </div>
-    <p>Simple secure password generator.</p>
+    <p>Password generation made simple.</p>
   </section>
 </Container>
 
@@ -16,22 +16,34 @@ import { Container } from './container';
   .hero {
     padding: 100px 0 40px;
 
-    & .title {
+    & .logo {
       display: flex;
-      column-gap: 8px;
       align-items: center;
-      margin-bottom: 6px;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      margin-bottom: 12px;
+      background-color: var(--color-neutral-100);
+      border: 1px solid var(--color-neutral-200);
+      border-radius: 8px;
+      box-shadow:
+        inset 0 1px 0 var(--color-neutral-50),
+        inset 0 -1px 0 var(--color-neutral-300);
 
-      & .logo {
-        height: 24px;
-        opacity: 0.2;
-        transform: translateY(-2px);
+      & img {
+        height: 60%;
+        opacity: 0.7;
       }
+    }
 
-      & h1 {
-        font-family: var(--font-display);
-        font-size: var(--font-2xlg);
-        line-height: 0;
+    & h1 {
+      margin-bottom: 2px;
+      font-family: var(--font-display);
+      font-size: var(--font-md);
+      font-weight: 600;
+
+      & span {
+        color: var(--color-foreground-subtler);
       }
     }
 
