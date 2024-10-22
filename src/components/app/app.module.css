@@ -3,11 +3,11 @@
     display: flex;
     column-gap: 8px;
     align-items: center;
-    height: 45px;
+    height: 50px;
     padding: 4px;
     margin-bottom: 16px;
     border: 1px solid var(--color-neutral-100);
-    border-radius: 100px;
+    border-radius: 8px;
 
     & button {
       display: flex;
@@ -20,7 +20,7 @@
       cursor: pointer;
       background-color: transparent;
       border: none;
-      border-radius: 100px;
+      border-radius: 4px;
       outline: none;
 
       &.active {
@@ -64,7 +64,7 @@
       height: 100%;
       padding: 4px;
       border: 1px solid var(--color-neutral-200);
-      border-radius: 12px;
+      border-radius: 8px;
 
       & input {
         flex-grow: 1;
@@ -89,7 +89,7 @@
         cursor: pointer;
         background-color: var(--color-neutral-100);
         border: none;
-        border-radius: 8px;
+        border-radius: 4px;
         outline: none;
 
         &.generate {
@@ -115,7 +115,7 @@
     color: var(--color-foreground-subtle);
     background: linear-gradient(90deg, var(--color-neutral-100), transparent);
     border-left: 2px solid var(--color-neutral-200);
-    border-radius: 8px;
+    border-radius: 4px;
 
     & .time {
       display: flex;
@@ -169,7 +169,7 @@
   & .tabContent {
     padding: 20px;
     border: 1px dashed var(--color-neutral-100);
-    border-radius: 12px;
+    border-radius: 8px;
 
     & .controls {
       & .length {
@@ -200,7 +200,7 @@
             text-align: center;
             background-color: var(--color-neutral-100);
             border: 1px solid var(--color-neutral-200);
-            border-radius: 8px;
+            border-radius: 4px;
             outline: none;
           }
 
@@ -235,7 +235,7 @@
           color: var(--color-foreground);
           background-color: var(--color-neutral-100);
           border: 1px solid var(--color-neutral-200);
-          border-radius: 8px;
+          border-radius: 4px;
           outline: none;
         }
       }
@@ -269,7 +269,7 @@
           resize: vertical;
           background-color: var(--color-neutral-100);
           border: 1px solid var(--color-neutral-200);
-          border-radius: 8px;
+          border-radius: 4px;
           outline: none;
         }
       }
@@ -296,7 +296,7 @@
           color: var(--color-foreground);
           background-color: var(--color-neutral-100);
           border: 1px solid var(--color-neutral-200);
-          border-radius: 8px;
+          border-radius: 4px;
           outline: none;
         }
       }
