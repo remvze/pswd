@@ -5,7 +5,7 @@ import { Container } from './container';
 <Container>
   <section class="hero">
     <h1>
-      AwsmPass
+      <span class="gradient">AwsmPass</span>
       <span class="dash">_</span>
     </h1>
     <p class="desc">Simple password generation.</p>
@@ -18,10 +18,22 @@ import { Container } from './container';
 
     & h1 {
       font-family: var(--font-heading);
+      font-size: var(--font-md);
       font-weight: 600;
 
       & .dash {
         color: #0ea5e9;
+      }
+
+      & .gradient {
+        background: linear-gradient(
+          135deg,
+          var(--color-foreground),
+          var(--color-foreground),
+          var(--color-foreground-subtler)
+        );
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
     }
 
