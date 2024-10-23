@@ -12,7 +12,10 @@ import { Container } from '../container';
 
 import { useCopy } from '@/hooks/use-copy';
 import { useLocalStorage } from '@/hooks/use-local-storage';
-import { getSecureRandomInt } from '@/helpers/crypto';
+import {
+  getSecureRandomInt,
+  getSecureRandomIntInRange,
+} from '@/helpers/crypto';
 import { capitalizeString } from '@/helpers/string';
 
 import { wordlist } from '@/data/wordlist';
@@ -70,6 +73,14 @@ export function App() {
   const [capitalize, setCapitalize] = useLocalStorage('pswd-capitalize', false);
   const [randomCapitalization, setRandomCapitalization] = useLocalStorage(
     'pswd-random-capitalization',
+    false,
+  );
+  const [randomNumberBeginning, setRandomNumberBeginning] = useLocalStorage(
+    'pswd-random-number-beginning',
+    false,
+  );
+  const [randomNumberEnd, setRandomNumberEnd] = useLocalStorage(
+    'pswd-random-number-end',
     false,
   );
   const [customWordlist, setCustomWordlist] = useLocalStorage(
@@ -158,7 +169,7 @@ export function App() {
         return;
       }
 
-      let words = [];
+      let words: Array<string | number> = [];
       const wordlistLength = wordlist.length;
 
       for (let i = 0; i < wordCount; i++) {
@@ -181,6 +192,18 @@ export function App() {
         });
       }
 
+      if (randomNumberBeginning) {
+        const randomNumber = getSecureRandomIntInRange(100, 999);
+
+        words.unshift(randomNumber);
+      }
+
+      if (randomNumberEnd) {
+        const randomNumber = getSecureRandomIntInRange(100, 999);
+
+        words.push(randomNumber);
+      }
+
       setPassword(
         words.join(
           separator === 'space' ? ' ' : separator === 'dash' ? '-' : '',
@@ -190,6 +213,8 @@ export function App() {
   }, [
     includeUpper,
     randomCapitalization,
+    randomNumberBeginning,
+    randomNumberEnd,
     includeLower,
     includeNumbers,
     includeSymbols,
@@ -447,6 +472,24 @@ export function App() {
                   onChange={e => setRandomCapitalization(e.target.checked)}
                 />
                 Randomly Capitalize Letters
+              </label>
+
+              <label className={styles.checkbox}>
+                <input
+                  checked={randomNumberBeginning}
+                  type="checkbox"
+                  onChange={e => setRandomNumberBeginning(e.target.checked)}
+                />
+                Add Random Numbers At The Beginning
+              </label>
+
+              <label className={styles.checkbox}>
+                <input
+                  checked={randomNumberEnd}
+                  type="checkbox"
+                  onChange={e => setRandomNumberEnd(e.target.checked)}
+                />
+                Add Random Numbers At The End
               </label>
 
               <div className={styles.separator}>
