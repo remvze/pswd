@@ -181,7 +181,7 @@ export function App() {
 
       if (randomCapitalization) {
         words = words.map(word => {
-          const newWord = word
+          const newWord = String(word)
             .split('')
             .map(letter =>
               Math.random() > 0.5 ? letter.toLowerCase() : letter.toUpperCase(),
