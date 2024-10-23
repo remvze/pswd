@@ -8,9 +8,15 @@ import Matrix from './matrix.astro';
     <Matrix />
     <div class="title">
       <div class="logo"><img alt="Passcure Logo" src="/logo.svg" /></div>
-      <h1><span>Passcure</span></h1>
+      <h1>
+        <span class="first">Password Generation</span>
+        <span class="second"
+          >Should Be <span class="underline">Simple</span></span
+        >
+        <span class="third">Yet <span class="underline">Secure</span>.</span>
+      </h1>
     </div>
-    <p>Simple password generation.</p>
+    <p>And that&apos;s what <strong>Pord</strong> is for!</p>
   </section>
 </Container>
 
@@ -43,10 +49,31 @@ import Matrix from './matrix.astro';
     & h1 {
       margin-bottom: 4px;
       font-family: var(--font-display);
-      font-size: var(--font-md);
-      font-weight: 600;
+      font-size: var(--font-lg);
+      font-weight: 700;
+      line-height: 1.15;
 
-      & span {
+      & .first,
+      & .second,
+      & .third {
+        display: block;
+
+        & .underline {
+          text-decoration: underline;
+          text-decoration-style: dotted;
+          text-decoration-color: var(--color-foreground);
+        }
+      }
+
+      & .second {
+        color: var(--color-foreground-subtle);
+      }
+
+      & .third {
+        color: var(--color-foreground-subtler);
+      }
+
+      & .gradient {
         background: linear-gradient(
           135deg,
           var(--color-foreground),
@@ -59,8 +86,14 @@ import Matrix from './matrix.astro';
     }
 
     & p {
+      margin-top: 16px;
       font-size: var(--font-sm);
-      color: var(--color-foreground-subtle);
+      color: var(--color-foreground-subtler);
+
+      & strong {
+        font-weight: 500;
+        color: var(--color-foreground-subtle);
+      }
     }
   }
 </style>
