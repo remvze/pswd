@@ -169,7 +169,7 @@ export function App() {
         return;
       }
 
-      let words: Array<string | number> = [];
+      let words: Array<string | number | undefined> = [];
       const wordlistLength = wordlist.length;
 
       for (let i = 0; i < wordCount; i++) {
@@ -204,11 +204,25 @@ export function App() {
         words.push(randomNumber);
       }
 
-      setPassword(
-        words.join(
-          separator === 'space' ? ' ' : separator === 'dash' ? '-' : '',
-        ),
-      );
+      if (separator === 'symbol') {
+        const last = words.pop();
+
+        words = words.map(word => {
+          const randomSymbol = SYMBOLS[getSecureRandomInt(SYMBOLS.length)];
+
+          return word + randomSymbol;
+        });
+
+        words.push(last);
+
+        setPassword(words.filter(Boolean).join(''));
+      } else {
+        setPassword(
+          words.join(
+            separator === 'space' ? ' ' : separator === 'dash' ? '-' : '',
+          ),
+        );
+      }
     }
   }, [
     includeUpper,
@@ -499,6 +513,7 @@ export function App() {
                   onChange={e => setSeparator(e.target.value)}
                 >
                   <option value="space">Space</option>
+                  <option value="symbol">Random Symbol</option>
                   <option value="dash">Dash</option>
                   <option value="none">None</option>
                 </select>
