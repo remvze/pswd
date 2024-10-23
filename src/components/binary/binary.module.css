@@ -1,0 +1,20 @@
+.binary {
+  position: absolute;
+  top: -2.3rem;
+  left: 50%;
+  z-index: -4;
+  width: calc(100% + 10px);
+  height: 150px;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  line-height: 1.2;
+  color: var(--color-foreground-subtler);
+  text-align: center;
+  word-break: break-all;
+  pointer-events: none;
+  cursor: default;
+  user-select: none;
+  opacity: 0.55;
+  mask-image: linear-gradient(#000, transparent);
+  transform: translateX(-50%);
+}

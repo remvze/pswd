@@ -1,28 +1,34 @@
 ---
+import { Binary } from './binary';
+import { CipherText } from './cipher-text';
 import { Container } from './container';
 ---
 
 <Container>
   <section class="hero">
+    <Binary client:load />
+
     <h1>
       <span class="gradient">AwsmPass</span>
       <span class="dash">_</span>
     </h1>
-    <p class="desc">Simple password generation.</p>
+    <p class="desc">
+      <CipherText client:load text="Simple password generator." />
+    </p>
   </section>
 </Container>
 
 <style>
   .hero {
+    position: relative;
     padding: 100px 0 48px;
 
     & h1 {
       font-family: var(--font-heading);
-      font-size: var(--font-md);
-      font-weight: 600;
+      font-weight: 700;
 
       & .dash {
-        color: #0ea5e9;
+        color: var(--color-foreground-subtler);
       }
 
       & .gradient {
@@ -38,6 +44,7 @@ import { Container } from './container';
     }
 
     & .desc {
+      height: 1em;
       margin-top: 4px;
       font-size: var(--font-sm);
       color: var(--color-foreground-subtle);
