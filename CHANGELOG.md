@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.8](https://github.com/remvze/pswd/compare/v0.0.7...v0.0.8) (2024-10-23)
+
+
+### 🐛 Bug Fixes
+
+* turn the word into string ([38fcdb1](https://github.com/remvze/pswd/commit/38fcdb10b4c2139cd45b46fc32df257701da991a))
+
+
+### ✨ Features
+
+* add random letter capitalization ([c3e3420](https://github.com/remvze/pswd/commit/c3e34200e4e8e194693dde5792814759c12a62aa))
+* add random numbers for passphrases ([d3a97bc](https://github.com/remvze/pswd/commit/d3a97bce329b8eb08654d7a48960faf8e7c3f8c2))
+* add random symbol separator ([932d54f](https://github.com/remvze/pswd/commit/932d54fc9739fb9d2ba524273eaffc6acbbeaaaa))
+
 ### [0.0.7](https://github.com/remvze/pswd/compare/v0.0.6...v0.0.7) (2024-10-05)
 
 
