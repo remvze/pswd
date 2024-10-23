@@ -68,6 +68,10 @@ export function App() {
   const [wordCount, setWordCount] = useLocalStorage('pswd-word-count', 6);
   const [separator, setSeparator] = useLocalStorage('pswd-separator', 'space');
   const [capitalize, setCapitalize] = useLocalStorage('pswd-capitalize', false);
+  const [randomCapitalization, setRandomCapitalization] = useLocalStorage(
+    'pswd-random-capitalization',
+    false,
+  );
   const [customWordlist, setCustomWordlist] = useLocalStorage(
     'pswd-custom-wordlist',
     '',
@@ -154,7 +158,7 @@ export function App() {
         return;
       }
 
-      const words = [];
+      let words = [];
       const wordlistLength = wordlist.length;
 
       for (let i = 0; i < wordCount; i++) {
@@ -162,6 +166,19 @@ export function App() {
         const word = wordlist[index];
 
         words.push(capitalize ? capitalizeString(word) : word);
+      }
+
+      if (randomCapitalization) {
+        words = words.map(word => {
+          const newWord = word
+            .split('')
+            .map(letter =>
+              Math.random() > 0.5 ? letter.toLowerCase() : letter.toUpperCase(),
+            )
+            .join('');
+
+          return newWord;
+        });
       }
 
       setPassword(
@@ -172,6 +189,7 @@ export function App() {
     }
   }, [
     includeUpper,
+    randomCapitalization,
     includeLower,
     includeNumbers,
     includeSymbols,
@@ -420,6 +438,15 @@ export function App() {
                   onChange={e => setCapitalize(e.target.checked)}
                 />
                 Capitalize Words
+              </label>
+
+              <label className={styles.checkbox}>
+                <input
+                  checked={randomCapitalization}
+                  type="checkbox"
+                  onChange={e => setRandomCapitalization(e.target.checked)}
+                />
+                Randomly Capitalize Letters
               </label>
 
               <div className={styles.separator}>
