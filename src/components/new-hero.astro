@@ -1,0 +1,223 @@
+---
+import { Binary } from './binary';
+---
+
+<div class="container">
+  <section class="hero">
+    <div class="pattern"></div>
+    <div class="circle"><span class="light"></span></div>
+    <div class="noise"></div>
+    <Binary client:load />
+
+    <div>
+      <img alt="Katana Logo" src="/logo.svg" />
+      <h1>
+        <span class="reverse-gradient">Quick</span> and Easy <span class="line"
+          >Password <span class="gradient">Generation</span></span
+        >
+      </h1>
+    </div>
+  </section>
+</div>
+
+<style>
+  .container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 90px 0 40px;
+    margin-top: 24px;
+    overflow: hidden;
+    border-top: 1px solid var(--color-neutral-4);
+    border-radius: 36px 36px 0 0;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 75%;
+      height: 1px;
+      content: '';
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--color-neutral-8),
+        transparent
+      );
+      transform: translateX(-50%);
+    }
+
+    & .pattern {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 190px;
+      background: linear-gradient(
+        transparent,
+        var(--color-neutral-1),
+        var(--color-neutral-1)
+      );
+      opacity: 1;
+    }
+
+    & .noise {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      background: transparent url('/images/noise.png') repeat 0 0;
+      mix-blend-mode: lighten;
+      opacity: 0.75;
+    }
+
+    & .circle {
+      position: absolute;
+      bottom: -50px;
+      left: 50%;
+      z-index: -2;
+      width: 100%;
+      min-width: 500px;
+      aspect-ratio: 1/1;
+      background-color: var(--color-neutral-1);
+      border-radius: 50%;
+      box-shadow:
+        0 -40px 56px #282828,
+        0 -8px 28px #303030,
+        0 -4px 24px #3a3a3a,
+        0 0 16px #474747,
+        0 0 10px #606060;
+      transform: translate(-50%, 50%);
+
+      & .light {
+        position: absolute;
+        top: 16px;
+        left: 50%;
+        z-index: 10;
+        width: 120px;
+        height: 200px;
+        background-color: var(--color-neutral-7);
+        filter: blur(4px);
+        border: 1px solid var(--color-accent);
+        border-bottom: none;
+        border-radius: 50% 50% 0 0;
+        box-shadow: 0 0 16px var(--color-neutral-9);
+        opacity: var(--opacity);
+        transform: translateX(-50%);
+        animation-name: light;
+        animation-duration: 5s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        will-change: opacity;
+
+        --opacity: 0.45;
+      }
+    }
+
+    & .circle::before {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 1;
+      width: 100%;
+      height: calc(100% + 8px);
+      content: '';
+      background-color: #606060;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    & .circle::after {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 1;
+      width: 100%;
+      height: calc(100% + 4px);
+      content: '';
+      background-color: var(--color-neutral-1);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    & img {
+      display: block;
+      height: 36px;
+      margin: 0 auto 16px;
+    }
+
+    & h1 {
+      font-family: var(--font-heading);
+      font-size: var(--font-lg);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--color-foreground-subtler);
+      text-align: center;
+
+      & .line {
+        display: block;
+        color: var(--color-foreground);
+      }
+
+      & .gradient {
+        background: linear-gradient(
+          135deg,
+          var(--color-foreground),
+          var(--color-foreground),
+          var(--color-neutral-8)
+        );
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      & .reverse-gradient {
+        background: linear-gradient(
+          135deg,
+          var(--color-foreground-subtle),
+          var(--color-foreground-subtler),
+          var(--color-foreground-subtler)
+        );
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+
+    & p {
+      min-height: 1.2em;
+      margin-top: 4px;
+      color: var(--color-foreground-subtle);
+    }
+  }
+
+  @keyframes light {
+    0% {
+      opacity: var(--opacity);
+    }
+
+    25% {
+      opacity: calc(var(--opacity) * 0.8);
+    }
+
+    50% {
+      opacity: calc(var(--opacity) * 0.9);
+    }
+
+    75% {
+      opacity: calc(var(--opacity) * 0.7);
+    }
+
+    100% {
+      opacity: var(--opacity);
+    }
+  }
+</style>
