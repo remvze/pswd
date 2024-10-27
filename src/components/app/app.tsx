@@ -27,10 +27,9 @@ import { formatSeconds } from '@/helpers/time';
 const WORDLIST = wordlist;
 
 export function App() {
-  const [activeTab, setActiveTab] = useLocalStorage<'normal' | 'diceware'>(
-    'pswd-active-tab',
-    'normal',
-  );
+  const [activeTab, setActiveTab] = useLocalStorage<
+    'normal' | 'diceware' | 'pin'
+  >('pswd-active-tab', 'normal');
   const { copy, copying } = useCopy();
   const [showPassword, setShowPassword] = useLocalStorage(
     'pswd-show-password',
@@ -87,6 +86,8 @@ export function App() {
     'pswd-custom-wordlist',
     '',
   );
+
+  const [pinLength, setPinLength] = useLocalStorage('pswd-pin-length', 6);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -163,7 +164,7 @@ export function App() {
 
       const newPassword = passwordCharacters.join('');
       setPassword(newPassword);
-    } else {
+    } else if (activeTab === 'diceware') {
       if (wordlist.length === 0) {
         alert('Wordlist is empty. Please provide a valid wordlist.');
         return;
@@ -223,8 +224,20 @@ export function App() {
           ),
         );
       }
+    } else if (activeTab === 'pin') {
+      const passwordCharacters = [];
+      const charsetLength = NUMBERS.length;
+
+      for (let i = 0; i < pinLength; i++) {
+        const randomIndex = getSecureRandomInt(charsetLength);
+        passwordCharacters.push(NUMBERS[randomIndex]);
+      }
+
+      const newPassword = passwordCharacters.join('');
+      setPassword(newPassword);
     }
   }, [
+    pinLength,
     includeUpper,
     randomCapitalization,
     randomNumberBeginning,
@@ -291,6 +304,12 @@ export function App() {
             onClick={() => setActiveTab('diceware')}
           >
             Passphrase
+          </button>
+          <button
+            className={cn(activeTab === 'pin' && styles.active)}
+            onClick={() => setActiveTab('pin')}
+          >
+            Pin
           </button>
         </div>
 
@@ -528,6 +547,35 @@ export function App() {
                   value={customWordlist}
                   onChange={e => setCustomWordlist(e.target.value)}
                 />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'pin' && (
+          <div className={styles.tabContent}>
+            <div className={styles.controls}>
+              <div className={styles.length}>
+                <label htmlFor="length">Pin Length:</label>
+
+                <div className={styles.inputs}>
+                  <input
+                    id="count"
+                    max="20"
+                    min="3"
+                    type="number"
+                    value={pinLength}
+                    onChange={e => setPinLenght(Number(e.target.value))}
+                  />
+
+                  <input
+                    max="20"
+                    min="3"
+                    type="range"
+                    value={pinLength}
+                    onChange={e => setPinLength(Number(e.target.value))}
+                  />
+                </div>
               </div>
             </div>
           </div>
