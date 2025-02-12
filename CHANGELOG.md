@@ -2,6 +2,58 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/remvze/pswd/compare/v0.0.8...v1.0.0) (2025-02-12)
+
+
+### 🐛 Bug Fixes
+
+* add variable ([92cf681](https://github.com/remvze/pswd/commit/92cf6815e7cdce3d5aeb6a2314a2bdc0322b266c))
+* do not reset on height change ([a791de5](https://github.com/remvze/pswd/commit/a791de510130d9d736ef3de854db477f6aba1d63))
+
+
+### ✨ Features
+
+* add matrix effect ([f7bf25d](https://github.com/remvze/pswd/commit/f7bf25dd9d949def72caff15d9341154edf4bed6))
+* add new hero ([25de17f](https://github.com/remvze/pswd/commit/25de17f057bdae051034a178b79f21021b37cb0c))
+* add new hero ([66fcee2](https://github.com/remvze/pswd/commit/66fcee2e5c56c438cab56f371589d652a5d8737e))
+* add pin tab ([8398562](https://github.com/remvze/pswd/commit/83985624f33c754186bb97ce9b42f3fae3094740))
+* better hero ([613fd05](https://github.com/remvze/pswd/commit/613fd053a00ebb6ffc4d2623f6171d1c19c42e2b))
+* improve hero ([a3f56da](https://github.com/remvze/pswd/commit/a3f56da7caba4b361147cd269fbf10e532ceae3e))
+* make the effect responsive ([6014e7e](https://github.com/remvze/pswd/commit/6014e7e6776c2bcb299e9a2e1c2f6edcde300e46))
+* redesign ([f6c52f5](https://github.com/remvze/pswd/commit/f6c52f59a7ce72a306b324441746349ff6ce4970))
+* remove scores for pin ([261ce22](https://github.com/remvze/pswd/commit/261ce22a250a2e420c73463f04d583e319be5d2b))
+
+
+### 💄 Styling
+
+* add shades ([f3ee3d4](https://github.com/remvze/pswd/commit/f3ee3d43db1840d69aa2619ff2896e98160f9262))
+* change color ([009a6ab](https://github.com/remvze/pswd/commit/009a6abc80b8a40082ac68ea3e87ba8a34c6dd60))
+* change color ([e64a2d8](https://github.com/remvze/pswd/commit/e64a2d832f966be3fb55f193026ab533003629a0))
+* change color ([09e41f0](https://github.com/remvze/pswd/commit/09e41f0dd98226774abb8c0d168cd7b713e2380d))
+* change color ([f4ccd5b](https://github.com/remvze/pswd/commit/f4ccd5b1f322be799c7d59aa618ae8a815b941bf))
+* change color ([ae3efe9](https://github.com/remvze/pswd/commit/ae3efe9a25e077e39698d745eccd4d2e6f861385))
+* change color ([be31543](https://github.com/remvze/pswd/commit/be31543e0fb98e21348bd7eb060bc69b437860ad))
+* change color ([2672a7b](https://github.com/remvze/pswd/commit/2672a7b6d77cb9180732fefe49f9c617f6e62efa))
+* change foreground colors ([ebdb153](https://github.com/remvze/pswd/commit/ebdb1532c9424058a4f9c537db8c8e0286737bca))
+* decrease border radius ([c2b018d](https://github.com/remvze/pswd/commit/c2b018d8099d9dbe44c82f003a245c8c2475764a))
+* increase border radius ([1d53b40](https://github.com/remvze/pswd/commit/1d53b407cbbaa1ee6445f8daea2d69eab2d938c0))
+* minor change ([fa4c8a4](https://github.com/remvze/pswd/commit/fa4c8a42f5249e113d45dd4bbcb016126dc35720))
+* minor change ([920d44e](https://github.com/remvze/pswd/commit/920d44ec6d69a55e8dfa4f4e18fec866b9428fcc))
+* minor changes ([04bbcf5](https://github.com/remvze/pswd/commit/04bbcf579888a7934367146c3e374ef9e416663f))
+* minor changes ([804f292](https://github.com/remvze/pswd/commit/804f292111c1e62ef7c3f82f9995cabebf3dec72))
+* minor changes ([6b02ac7](https://github.com/remvze/pswd/commit/6b02ac79f0675ddb7a16f4b48147c5ae1c3462aa))
+* minor changes ([6c9a39d](https://github.com/remvze/pswd/commit/6c9a39d0475dcc5d0fb238b33bc046caeea5ab06))
+* new direction ([d9e5096](https://github.com/remvze/pswd/commit/d9e5096f4638511916f73803abd38e89a4302028))
+* remove extra margin ([2a00467](https://github.com/remvze/pswd/commit/2a00467e0abaa4237bf6871a8817df8e3a3126c4))
+* remove underline ([57166b5](https://github.com/remvze/pswd/commit/57166b562fb13de3f3cf5a52c86da910ede0242c))
+
+
+### 🚚 Chores
+
+* remove extra section ([5aad39d](https://github.com/remvze/pswd/commit/5aad39d1997a64e1f39415315e26334fc9e03632))
+* remove extras ([615bd1e](https://github.com/remvze/pswd/commit/615bd1ea9cb0b8de84dcbce987d09b9ed6522dbb))
+* rename ([4411890](https://github.com/remvze/pswd/commit/4411890feb5f24d43c679d895757b06a1816f2b6))
+
 ### [0.0.8](https://github.com/remvze/pswd/compare/v0.0.7...v0.0.8) (2024-10-23)
 
 
