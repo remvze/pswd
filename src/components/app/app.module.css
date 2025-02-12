@@ -11,17 +11,22 @@
 
     & button {
       display: flex;
+      flex-grow: 1;
       align-items: center;
       justify-content: center;
-      width: calc(100% / 3);
       height: 100%;
-      font-size: var(--font-sm);
+      font-size: var(--font-xsm);
       color: var(--color-foreground-subtle);
       cursor: pointer;
       background-color: transparent;
-      border: none;
+      border: 1px solid var(--color-neutral-50);
       border-radius: 8px;
       outline: none;
+      transition: 0.2s;
+
+      &:hover {
+        border-color: var(--color-neutral-100);
+      }
 
       &.active {
         position: relative;
