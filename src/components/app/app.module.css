@@ -125,7 +125,7 @@
         background: linear-gradient(
           90deg,
           transparent,
-          var(--color-neutral-500),
+          var(--color-neutral-400),
           transparent,
           transparent
         );
