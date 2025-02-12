@@ -557,7 +557,7 @@ export function App() {
         {activeTab === 'pin' && (
           <div className={styles.tabContent}>
             <div className={styles.controls}>
-              <div className={styles.length}>
+              <div className={styles.length} style={{ marginBottom: 0 }}>
                 <label htmlFor="length">Pin Length:</label>
 
                 <div className={styles.inputs}>
