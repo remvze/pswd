@@ -314,15 +314,17 @@ export function App() {
         </div>
 
         <div className={styles.resultWrapper}>
-          <div className={styles.score}>
-            <div
-              className={styles.filled}
-              style={{
-                background: strenthColor,
-                height: `${(strength / 5) * 100}%`,
-              }}
-            />
-          </div>
+          {activeTab !== 'pin' && (
+            <div className={styles.score}>
+              <div
+                className={styles.filled}
+                style={{
+                  background: strenthColor,
+                  height: `${(strength / 5) * 100}%`,
+                }}
+              />
+            </div>
+          )}
 
           <div className={styles.result}>
             <input
@@ -348,7 +350,7 @@ export function App() {
           </div>
         </div>
 
-        {crackTime && (
+        {crackTime && activeTab !== 'pin' && (
           <div className={styles.crackTime}>
             <p className={styles.time}>
               <span className={styles.label}>Crack Time:</span>
