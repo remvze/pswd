@@ -1,4 +1,5 @@
 ---
+import { CipherText } from './cipher-text';
 import { Container } from './container';
 import Matrix from './matrix.astro';
 ---
@@ -14,7 +15,15 @@ import Matrix from './matrix.astro';
         <span class="third">And Secure.</span>
       </h1>
     </div>
-    <p>And that&apos;s what <strong>Pord</strong> is for!</p>
+    <p>
+      That&apos;s why we built <span
+        ><CipherText client:load text="PSWD!" /></span
+      >
+    </p>
+    <div class="circle-wrapper">
+      <div class="circle"></div>
+    </div>
+    <div class="divider"></div>
   </section>
 </Container>
 
@@ -28,19 +37,23 @@ import Matrix from './matrix.astro';
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 40px;
-      height: 40px;
+      width: 54px;
+      height: 54px;
       margin: 0 auto 16px;
-      background-color: var(--color-neutral-100);
+      background: linear-gradient(
+        var(--color-neutral-200),
+        var(--color-neutral-50),
+        var(--color-neutral-50)
+      );
       border: 1px solid var(--color-neutral-200);
-      border-radius: 12px;
+      border-radius: 18px;
       box-shadow:
-        inset 0 -1px 0 var(--color-neutral-50),
+        inset 0 -1px 0 var(--color-neutral-100),
         inset 0 1px 0 var(--color-neutral-400);
 
       & img {
         height: 55%;
-        opacity: 0.8;
+        opacity: 0.95;
       }
     }
 
@@ -84,6 +97,7 @@ import Matrix from './matrix.astro';
     }
 
     & p {
+      height: 1.4rem;
       margin-top: 16px;
       font-size: var(--font-sm);
       color: var(--color-foreground-subtler);
@@ -92,6 +106,43 @@ import Matrix from './matrix.astro';
         font-weight: 500;
         color: var(--color-foreground-subtle);
       }
+
+      & span {
+        font-family: var(--font-mono);
+        color: var(--color-foreground-subtle);
+      }
+    }
+
+    & .circle-wrapper {
+      padding-top: 4px;
+      margin: 0;
+      overflow-y: hidden;
+
+      & .circle {
+        width: 60px;
+        height: 30px;
+        margin: 0 auto;
+        background: linear-gradient(transparent, var(--color-neutral-400));
+        filter: blur(10px);
+        border-radius: 1000px 1000px 0 0;
+        opacity: 0.25;
+      }
+    }
+
+    & .divider {
+      width: 140px;
+      height: 1px;
+      margin: 0 auto;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--color-neutral-100),
+        var(--color-neutral-300),
+        var(--color-neutral-500),
+        var(--color-neutral-300),
+        var(--color-neutral-100),
+        transparent
+      );
     }
   }
 </style>

@@ -565,7 +565,7 @@ export function App() {
                     min="3"
                     type="number"
                     value={pinLength}
-                    onChange={e => setPinLenght(Number(e.target.value))}
+                    onChange={e => setPinLength(Number(e.target.value))}
                   />
 
                   <input
