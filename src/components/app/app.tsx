@@ -10,6 +10,7 @@ import zxcvbn from 'zxcvbn';
 
 import { Container } from '../container';
 import { Slider } from '../slider';
+import { Checkbox } from '../checkbox';
 
 import { useCopy } from '@/hooks/use-copy';
 import { useLocalStorage } from '@/hooks/use-local-storage';
@@ -396,46 +397,41 @@ export function App() {
               </div>
 
               <label className={styles.checkbox}>
-                <input
+                <Checkbox
                   checked={includeUpper}
-                  type="checkbox"
-                  onChange={e => setIncludeUpper(e.target.checked)}
+                  onChange={checked => setIncludeUpper(checked)}
                 />
                 Include Uppercase Letters
               </label>
 
               <label className={styles.checkbox}>
-                <input
+                <Checkbox
                   checked={includeLower}
-                  type="checkbox"
-                  onChange={e => setIncludeLower(e.target.checked)}
+                  onChange={checked => setIncludeLower(checked)}
                 />
                 Include Lowercase Letters
               </label>
 
               <label className={styles.checkbox}>
-                <input
+                <Checkbox
                   checked={includeNumbers}
-                  type="checkbox"
-                  onChange={e => setIncludeNumbers(e.target.checked)}
+                  onChange={checked => setIncludeNumbers(checked)}
                 />
                 Include Numbers
               </label>
 
               <label className={styles.checkbox}>
-                <input
+                <Checkbox
                   checked={includeSymbols}
-                  type="checkbox"
-                  onChange={e => setIncludeSymbols(e.target.checked)}
+                  onChange={checked => setIncludeSymbols(checked)}
                 />
                 Include Symbols
               </label>
 
               <label className={styles.checkbox}>
-                <input
+                <Checkbox
                   checked={excludeSimilar}
-                  type="checkbox"
-                  onChange={e => setExcludeSimilar(e.target.checked)}
+                  onChange={checked => setExcludeSimilar(checked)}
                 />
                 Exclude Similar Characters (e.g., l, 1, O, 0)
               </label>
@@ -491,37 +487,33 @@ export function App() {
               </div>
 
               <label className={styles.checkbox}>
-                <input
+                <Checkbox
                   checked={capitalize}
-                  type="checkbox"
-                  onChange={e => setCapitalize(e.target.checked)}
+                  onChange={checked => setCapitalize(checked)}
                 />
                 Capitalize Words
               </label>
 
               <label className={styles.checkbox}>
-                <input
+                <Checkbox
                   checked={randomCapitalization}
-                  type="checkbox"
-                  onChange={e => setRandomCapitalization(e.target.checked)}
+                  onChange={checked => setRandomCapitalization(checked)}
                 />
                 Randomly Capitalize Letters
               </label>
 
               <label className={styles.checkbox}>
-                <input
+                <Checkbox
                   checked={randomNumberBeginning}
-                  type="checkbox"
-                  onChange={e => setRandomNumberBeginning(e.target.checked)}
+                  onChange={checked => setRandomNumberBeginning(checked)}
                 />
                 Add Random Numbers At The Beginning
               </label>
 
               <label className={styles.checkbox}>
-                <input
+                <Checkbox
                   checked={randomNumberEnd}
-                  type="checkbox"
-                  onChange={e => setRandomNumberEnd(e.target.checked)}
+                  onChange={checked => setRandomNumberEnd(checked)}
                 />
                 Add Random Numbers At The End
               </label>

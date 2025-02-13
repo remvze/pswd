@@ -250,7 +250,7 @@
 
       & .mono {
         & .accent {
-          color: #a3e635;
+          color: var(--color-foreground-subtler);
         }
 
         & sup {
