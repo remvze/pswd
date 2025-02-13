@@ -433,6 +433,6 @@
     font-weight: 500;
     color: var(--color-foreground);
     text-decoration-style: dotted;
-    text-decoration-color: #a3e635;
+    text-decoration-color: var(--color-foreground-subtler);
   }
 }
