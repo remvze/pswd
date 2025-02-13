@@ -313,12 +313,12 @@
       background: linear-gradient(
         90deg,
         transparent,
-        var(--color-neutral-300),
+        var(--color-neutral-200),
         transparent,
         transparent,
         transparent,
         transparent,
-        var(--color-neutral-300),
+        var(--color-neutral-200),
         transparent
       );
       transform: translateX(-50%);
