@@ -9,6 +9,7 @@ import {
 import zxcvbn from 'zxcvbn';
 
 import { Container } from '../container';
+import { Slider } from '../slider';
 
 import { useCopy } from '@/hooks/use-copy';
 import { useLocalStorage } from '@/hooks/use-local-storage';
@@ -385,12 +386,11 @@ export function App() {
                     onChange={e => setLength(Number(e.target.value))}
                   />
 
-                  <input
-                    max="90"
-                    min="3"
-                    type="range"
+                  <Slider
+                    max={90}
+                    min={3}
                     value={length}
-                    onChange={e => setLength(Number(e.target.value))}
+                    onChange={value => setLength(value)}
                   />
                 </div>
               </div>
@@ -481,12 +481,11 @@ export function App() {
                     onChange={e => setWordCount(Number(e.target.value))}
                   />
 
-                  <input
-                    max="20"
-                    min="3"
-                    type="range"
+                  <Slider
+                    max={20}
+                    min={3}
                     value={wordCount}
-                    onChange={e => setWordCount(Number(e.target.value))}
+                    onChange={value => setWordCount(value)}
                   />
                 </div>
               </div>
@@ -570,12 +569,11 @@ export function App() {
                     onChange={e => setPinLength(Number(e.target.value))}
                   />
 
-                  <input
-                    max="20"
-                    min="3"
-                    type="range"
+                  <Slider
+                    max={20}
+                    min={3}
                     value={pinLength}
-                    onChange={e => setPinLength(Number(e.target.value))}
+                    onChange={value => setPinLength(value)}
                   />
                 </div>
               </div>
