@@ -1,50 +1,19 @@
 <div class="matrix">
   <canvas id="canvas"></canvas>
-  <canvas id="canvas2"></canvas>
   <div class="overlay"></div>
 </div>
 
-<script is:inline>
+<script>
   var canvas = document.getElementById('canvas'),
     ctx = canvas.getContext('2d'),
-    canvas2 = document.getElementById('canvas2'),
-    ctx2 = canvas2.getContext('2d'),
-    charArr = [
-      'a',
-      'b',
-      'c',
-      'd',
-      'e',
-      'f',
-      'g',
-      'h',
-      'i',
-      'j',
-      'k',
-      'l',
-      'm',
-      'n',
-      'o',
-      'p',
-      'q',
-      'r',
-      's',
-      't',
-      'u',
-      'v',
-      'w',
-      'x',
-      'y',
-      'z',
-    ],
+    charArr = 'abcdefghijklmnopqrstuvwxyz'.split(''),
     fallingCharArr = [],
     fontSize = 14,
     cw,
     ch,
-    maxColums,
+    maxColumns,
     prevWidth;
 
-  // Function to recalculate canvas size based on the parent `.matrix` element
   function resizeCanvas() {
     var matrix = document.querySelector('.matrix');
     cw = matrix.clientWidth;
@@ -52,27 +21,21 @@
 
     if (cw !== prevWidth) {
       prevWidth = cw;
-      maxColums = Math.floor(cw / fontSize);
+      maxColumns = Math.floor(cw / fontSize);
 
-      // Adjust the canvas size
-      canvas.width = canvas2.width = cw;
-      canvas.height = canvas2.height = ch;
+      canvas.width = cw;
+      canvas.height = ch;
 
       ctx.fillStyle = 'rgb(9, 9, 11)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillRect(0, 0, cw, ch);
 
-      ctx2.fillStyle = 'rgb(9, 9, 11)';
-      ctx2.fillRect(0, 0, canvas.width, canvas.height);
-
-      // Reinitialize falling characters
       fallingCharArr = [];
-      for (var i = 0; i < maxColums; i++) {
+      for (var i = 0; i < maxColumns; i++) {
         fallingCharArr.push(new Point(i * fontSize, randomFloat(-500, 0)));
       }
     }
   }
 
-  // Helper functions
   function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
   }
@@ -86,17 +49,12 @@
     this.y = y;
   }
 
-  // Method to draw a character
-  Point.prototype.draw = function (ctx) {
-    this.value = charArr[randomInt(0, charArr.length - 1)].toUpperCase();
+  Point.prototype.draw = function () {
+    this.value = charArr[randomInt(0, charArr.length)].toUpperCase();
     this.speed = randomFloat(0.5, 2);
 
-    ctx2.fillStyle = 'rgba(255,255,255,0.8)';
-    ctx2.font = fontSize + 'px san-serif';
-    ctx2.fillText(this.value, this.x, this.y);
-
     ctx.fillStyle = '#FFF';
-    ctx.font = fontSize + 'px san-serif';
+    ctx.font = fontSize + 'px sans-serif';
     ctx.fillText(this.value, this.x, this.y);
 
     this.y += this.speed;
@@ -106,40 +64,19 @@
     }
   };
 
-  // Create falling characters
-  for (var i = 0; i < maxColums; i++) {
-    fallingCharArr.push(new Point(i * fontSize, randomFloat(-500, 0)));
-  }
-
-  // Animation update function
   function update() {
-    ctx.fillStyle = 'rgba(9,9,11,0.05)';
+    ctx.fillStyle = 'rgba(9, 9, 11, 0.05)';
     ctx.fillRect(0, 0, cw, ch);
 
-    ctx2.clearRect(0, 0, cw, ch);
-
-    var i = fallingCharArr.length;
-    while (i--) {
-      fallingCharArr[i].draw(ctx);
-    }
+    fallingCharArr.forEach(point => point.draw());
 
     requestAnimationFrame(update);
   }
 
-  // Use ResizeObserver to detect changes in the size of `.matrix`
   var matrix = document.querySelector('.matrix');
-  var resizeObserver = new ResizeObserver(entries => {
-    for (let entry of entries) {
-      if (entry.contentRect) {
-        resizeCanvas(); // Adjust the canvas size when the parent changes size
-      }
-    }
-  });
-
-  // Observe the matrix element
+  var resizeObserver = new ResizeObserver(() => resizeCanvas());
   resizeObserver.observe(matrix);
 
-  // Start the animation
   update();
 </script>
 
@@ -168,8 +105,8 @@
     width: 100%;
     height: 100%;
     background: linear-gradient(
-      rgb(9 9 11 / 75%),
-      rgb(9 9 11 / 75%),
+      rgb(9 9 11 / 80%),
+      rgb(9 9 11 / 80%),
       var(--color-neutral-50),
       var(--color-neutral-50),
       var(--color-neutral-50)
