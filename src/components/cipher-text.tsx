@@ -31,6 +31,12 @@ export function CipherText({ interval = 50, text }: CipherTextProps) {
     return () => clearInterval(timer);
   }, [text, interval, outputText]);
 
+  useEffect(() => {
+    if (outputText === text) {
+      setTimeout(() => setOutputText(''), 6000);
+    }
+  }, [outputText, text]);
+
   const remainder =
     outputText.length < text.length
       ? text
@@ -41,7 +47,7 @@ export function CipherText({ interval = 50, text }: CipherTextProps) {
       : '';
 
   if (!isMounted) {
-    return <span> </span>;
+    return <span>{text}</span>;
   }
 
   return (
