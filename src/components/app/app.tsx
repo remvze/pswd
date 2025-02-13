@@ -374,6 +374,9 @@ export function App() {
 
         {activeTab === 'normal' && (
           <div className={styles.tabContent}>
+            <div className={styles.shineTop} />
+            <div className={styles.shineBottom} />
+
             <div className={styles.controls}>
               <div className={styles.length}>
                 <label htmlFor="length">Password Length:</label>
@@ -463,6 +466,9 @@ export function App() {
 
         {activeTab === 'diceware' && (
           <div className={styles.tabContent}>
+            <div className={styles.shineTop} />
+            <div className={styles.shineBottom} />
+
             <div className={styles.controls}>
               <div className={styles.length}>
                 <label htmlFor="count">Number of Words:</label>
@@ -547,6 +553,9 @@ export function App() {
 
         {activeTab === 'pin' && (
           <div className={styles.tabContent}>
+            <div className={styles.shineTop} />
+            <div className={styles.shineBottom} />
+
             <div className={styles.controls}>
               <div className={styles.length} style={{ marginBottom: 0 }}>
                 <label htmlFor="length">Pin Length:</label>
