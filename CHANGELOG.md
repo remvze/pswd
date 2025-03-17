@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://github.com/remvze/pswd/compare/v1.0.0...v1.0.1) (2025-03-17)
+
+
+### 💄 Styling
+
+* add shines ([16706d8](https://github.com/remvze/pswd/commit/16706d8dcae877707f8895b985941849f50afd25))
+* minor change ([42a585f](https://github.com/remvze/pswd/commit/42a585f728180d069f48f87596ba6429bfeeeae3))
+* minor change ([08fd4df](https://github.com/remvze/pswd/commit/08fd4df9e8c856cd949391c691e0178c27246be4))
+* minor changes ([a541106](https://github.com/remvze/pswd/commit/a5411066f1232a66cbff70e51a927cd45744632d))
+* minor changes ([7539370](https://github.com/remvze/pswd/commit/7539370eb0806166e01be31837cf6629b6bc1d95))
+
+
+### ✨ Features
+
+* implement custom checkbox ([db2d60a](https://github.com/remvze/pswd/commit/db2d60ae536abd006bafdc38cbba03bee0c37cd7))
+* implement custom slider ([acf5453](https://github.com/remvze/pswd/commit/acf545341eafc0585e058013ccb05eea74bd6b9d))
+* improve the matrix ([761bd0b](https://github.com/remvze/pswd/commit/761bd0b0102ba48aafeacbdddff9f5387f24016f))
+* make cipher text repeatable ([cbd6344](https://github.com/remvze/pswd/commit/cbd6344ae0ee49f334e16dedbbe9058b155819f7))
+
+
+### 🐛 Bug Fixes
+
+* escape special characters ([7eee6d9](https://github.com/remvze/pswd/commit/7eee6d99cc53c5a0e67d98864ea42d0d3360a346))
+
 ## [1.0.0](https://github.com/remvze/pswd/compare/v0.0.8...v1.0.0) (2025-02-12)
 
 
