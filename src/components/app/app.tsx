@@ -146,7 +146,8 @@ export function App() {
       }
 
       if (toExclude) {
-        const regex = new RegExp(`[${toExclude}]`, 'g');
+        const escaped = toExclude.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+        const regex = new RegExp(`[${escaped}]`, 'g');
 
         characterSet = characterSet.replace(regex, '');
       }
