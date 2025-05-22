@@ -116,8 +116,11 @@ export function App() {
     const urlParams = new URLSearchParams(window.location.search);
     const length = Number(urlParams.get('length'));
     const words = Number(urlParams.get('words'));
+    const tab = urlParams.get('tab');
 
-    if (length > 0) {
+    if (tab && ['normal', 'diceware', 'pin', 'hash'].includes(tab)) {
+      setActiveTab(tab as 'normal' | 'diceware' | 'pin' | 'hash');
+    } else if (length > 0) {
       setLength(length);
       setActiveTab('normal');
     } else if (words > 0) {
