@@ -25,6 +25,7 @@ import { wordlist } from '@/data/wordlist';
 import styles from './app.module.css';
 import { cn } from '@/helpers/styles';
 import { formatSeconds } from '@/helpers/time';
+import { presets } from '@/helpers/presets';
 
 const WORDLIST = wordlist;
 
@@ -90,6 +91,8 @@ export function App() {
   );
 
   const [pinLength, setPinLength] = useLocalStorage('pswd-pin-length', 6);
+
+  const [selectedPresetId, setSelectedPresetId] = useState<string | null>(null);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -377,8 +380,36 @@ export function App() {
           <div className={styles.tabContent}>
             <div className={styles.shineTop} />
             <div className={styles.shineBottom} />
-
             <div className={styles.controls}>
+              <div className={styles.presets}>
+                <label htmlFor="presetSelect">Presets:</label>
+                <select
+                  id="presetSelect"
+                  value={selectedPresetId || ''}
+                  onChange={e => {
+                    const preset = presets.find(p => p.id === e.target.value);
+                    setSelectedPresetId(e.target.value);
+                    if (!preset) return;
+                    setLength(preset.length);
+                    setIncludeUpper(preset.includeUpper);
+                    setIncludeLower(preset.includeLower);
+                    setIncludeNumbers(preset.includeNumbers);
+                    setIncludeSymbols(preset.includeSymbols);
+                    setExcludeSimilar(preset.excludeSimilar || false);
+                    setCustomSymbols(preset.customSymbols || '');
+                    setExcludeSymbols(preset.excludeSymbols || '');
+                  }}
+                >
+                  <option disabled value="">
+                    -- Select a preset --
+                  </option>
+                  {presets.map(preset => (
+                    <option key={preset.id} value={preset.id}>
+                      {preset.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className={styles.length}>
                 <label htmlFor="length">Password Length:</label>
                 <div className={styles.inputs}>
