@@ -7,6 +7,7 @@ import {
   FaRegEyeSlash,
 } from 'react-icons/fa6';
 import zxcvbn from 'zxcvbn';
+import bcrypt from 'bcryptjs';
 
 import { Container } from '../container';
 import { Slider } from '../slider';
@@ -21,17 +22,17 @@ import {
 import { capitalizeString } from '@/helpers/string';
 
 import { wordlist } from '@/data/wordlist';
+import { presets } from '@/data/presets';
 
 import styles from './app.module.css';
 import { cn } from '@/helpers/styles';
 import { formatSeconds } from '@/helpers/time';
-import { presets } from '@/helpers/presets';
 
 const WORDLIST = wordlist;
 
 export function App() {
   const [activeTab, setActiveTab] = useLocalStorage<
-    'normal' | 'diceware' | 'pin'
+    'normal' | 'diceware' | 'pin' | 'hash'
   >('pswd-active-tab', 'normal');
   const { copy, copying } = useCopy();
   const [showPassword, setShowPassword] = useLocalStorage(
@@ -93,6 +94,23 @@ export function App() {
   const [pinLength, setPinLength] = useLocalStorage('pswd-pin-length', 6);
 
   const [selectedPresetId, setSelectedPresetId] = useState<string | null>(null);
+
+  // State for Hash tab
+  const [hashInput, setHashInput] = useState('');
+  const [hashRounds, setHashRounds] = useState(12);
+  const [hashing, setHashing] = useState(false);
+
+  const handleHashGenerate = async () => {
+    setHashing(true);
+    try {
+      const salt = await bcrypt.genSalt(hashRounds);
+      const hash = await bcrypt.hash(hashInput, salt);
+      setPassword(hash);
+    } catch (e) {
+      setPassword('Error generating hash');
+    }
+    setHashing(false);
+  };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -295,6 +313,29 @@ export function App() {
     }
   }, [password]);
 
+  // Helper to pick a random word and hash it
+  const refreshHashWord = async () => {
+    const list = wordlist.length > 0 ? wordlist : WORDLIST;
+    const randomIndex = Math.floor(Math.random() * list.length);
+    const randomWord = list[randomIndex];
+    setHashInput(randomWord);
+    setHashing(true);
+    try {
+      const salt = await bcrypt.genSalt(hashRounds);
+      const hash = await bcrypt.hash(randomWord, salt);
+      setPassword(hash);
+    } catch (e) {
+      setPassword('Error generating hash');
+    }
+    setHashing(false);
+  };
+
+  useEffect(() => {
+    if (activeTab === 'hash') {
+      refreshHashWord();
+    }
+  }, [activeTab, wordlist, hashRounds]);
+
   return (
     <Container>
       <div className={styles.generator}>
@@ -317,6 +358,12 @@ export function App() {
           >
             Pin
           </button>
+          <button
+            className={cn(activeTab === 'hash' && styles.active)}
+            onClick={() => setActiveTab('hash')}
+          >
+            Hash
+          </button>
         </div>
 
         <div className={styles.resultWrapper}>
@@ -335,28 +382,43 @@ export function App() {
           <div className={styles.result}>
             <input
               readOnly
-              type={showPassword ? 'text' : 'password'}
+              type={activeTab === 'hash' ? 'text' : (showPassword ? 'text' : 'password')}
               value={password}
             />
-            <button
-              className={styles.hide}
-              onClick={() => setShowPassword(prev => !prev)}
-            >
-              {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
-            </button>
+            {activeTab !== 'hash' && (
+              <button
+                className={styles.hide}
+                onClick={() => setShowPassword(prev => !prev)}
+              >
+                {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+              </button>
+            )}
             <button className={styles.copy} onClick={() => copy(password)}>
               {copying ? <FaCheck /> : <FaRegCopy />}
             </button>
-            <button
-              className={styles.generate}
-              onClick={() => generatePassword()}
-            >
-              <FaArrowRotateLeft />
-            </button>
+            {activeTab !== 'hash' && (
+              <button
+                className={styles.generate}
+                onClick={() => generatePassword()}
+              >
+                <FaArrowRotateLeft />
+              </button>
+            )}
+            {activeTab === 'hash' && (
+              <button
+                className={styles.generate}
+                onClick={refreshHashWord}
+                type="button"
+                disabled={hashing}
+                title="Refresh random word"
+              >
+                <FaArrowRotateLeft />
+              </button>
+            )}
           </div>
         </div>
 
-        {crackTime && activeTab !== 'pin' && (
+        {crackTime && activeTab !== 'pin' && activeTab !== 'hash' && (
           <div className={styles.crackTime}>
             <p className={styles.time}>
               <span className={styles.label}>Crack Time:</span>
@@ -610,6 +672,53 @@ export function App() {
                   />
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'hash' && (
+          <div className={styles.tabContent}>
+            <div className={styles.shineTop} />
+            <div className={styles.shineBottom} />
+            <div className={styles.controls}>
+              <div className={styles.custom} style={{ marginBottom: 16 }}>
+                <label htmlFor="hashInput">Text to Hash:</label>
+                <input
+                  id="hashInput"
+                  type="text"
+                  value={hashInput}
+                  onChange={e => setHashInput(e.target.value)}
+                  placeholder="Enter text (e.g., password)"
+                />
+              </div>
+              <div className={styles.custom} style={{ marginBottom: 16 }}>
+                <label htmlFor="hashRounds">Rounds (Cost Factor):</label>
+                <div className={styles.inputs}>
+                  <input
+                    id="hashRounds"
+                    type="number"
+                    min={4}
+                    max={20}
+                    value={hashRounds}
+                    onChange={e => setHashRounds(Number(e.target.value))}
+                    style={{ width: 70, minWidth: 70, height: 36, padding: '0 4px', fontFamily: 'var(--font-mono)', fontSize: 'var(--font-sm)', fontWeight: 500, color: 'var(--color-foreground)', textAlign: 'center', backgroundColor: 'var(--color-neutral-100)', border: '1px solid var(--color-neutral-200)', borderRadius: 8, outline: 'none' }}
+                  />
+                  <Slider
+                    min={4}
+                    max={20}
+                    value={hashRounds}
+                    onChange={setHashRounds}
+                  />
+                </div>
+              </div>
+              <button
+                className={styles.generate}
+                style={{ width: '100%', marginBottom: 16, height: 40, fontWeight: 500 }}
+                onClick={handleHashGenerate}
+                disabled={hashing || !hashInput}
+              >
+                {hashing ? 'Hashing...' : 'Generate Hash'}
+              </button>
             </div>
           </div>
         )}
