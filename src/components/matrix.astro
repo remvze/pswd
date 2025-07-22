@@ -65,10 +65,19 @@
   };
 
   function update() {
-    ctx.fillStyle = 'rgba(9, 9, 11, 0.05)';
+    ctx.save();
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.fillStyle = 'rgba(0,0,0,0.05)';
     ctx.fillRect(0, 0, cw, ch);
+    ctx.restore();
 
-    fallingCharArr.forEach(point => point.draw());
+    ctx.save();
+    ctx.globalCompositeOperation = 'destination-over';
+    ctx.fillStyle = '#09090B';
+    ctx.fillRect(0, 0, cw, ch);
+    ctx.restore();
+
+    fallingCharArr.forEach(p => p.draw());
 
     requestAnimationFrame(update);
   }
