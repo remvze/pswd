@@ -21,6 +21,7 @@ import {
 import { capitalizeString } from '@/helpers/string';
 
 import { wordlist } from '@/data/wordlist';
+import { presets } from '@/data/presets';
 
 import styles from './app.module.css';
 import { cn } from '@/helpers/styles';
@@ -91,12 +92,17 @@ export function App() {
 
   const [pinLength, setPinLength] = useLocalStorage('pswd-pin-length', 6);
 
+  const [selectedPresetId, setSelectedPresetId] = useState<string | null>(null);
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const length = Number(urlParams.get('length'));
     const words = Number(urlParams.get('words'));
+    const tab = urlParams.get('tab');
 
-    if (length > 0) {
+    if (tab && ['normal', 'diceware', 'pin'].includes(tab)) {
+      setActiveTab(tab as 'normal' | 'diceware' | 'pin');
+    } else if (length > 0) {
       setLength(length);
       setActiveTab('normal');
     } else if (words > 0) {
@@ -335,6 +341,7 @@ export function App() {
               type={showPassword ? 'text' : 'password'}
               value={password}
             />
+
             <button
               className={styles.hide}
               onClick={() => setShowPassword(prev => !prev)}
@@ -377,8 +384,36 @@ export function App() {
           <div className={styles.tabContent}>
             <div className={styles.shineTop} />
             <div className={styles.shineBottom} />
-
             <div className={styles.controls}>
+              <div className={styles.presets}>
+                <label htmlFor="presetSelect">Presets:</label>
+                <select
+                  id="presetSelect"
+                  value={selectedPresetId || ''}
+                  onChange={e => {
+                    const preset = presets.find(p => p.id === e.target.value);
+                    setSelectedPresetId(e.target.value);
+                    if (!preset) return;
+                    setLength(preset.length);
+                    setIncludeUpper(preset.includeUpper);
+                    setIncludeLower(preset.includeLower);
+                    setIncludeNumbers(preset.includeNumbers);
+                    setIncludeSymbols(preset.includeSymbols);
+                    setExcludeSimilar(preset.excludeSimilar || false);
+                    setCustomSymbols(preset.customSymbols || '');
+                    setExcludeSymbols(preset.excludeSymbols || '');
+                  }}
+                >
+                  <option disabled value="">
+                    -- Select a preset --
+                  </option>
+                  {presets.map(preset => (
+                    <option key={preset.id} value={preset.id}>
+                      {preset.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className={styles.length}>
                 <label htmlFor="length">Password Length:</label>
                 <div className={styles.inputs}>
