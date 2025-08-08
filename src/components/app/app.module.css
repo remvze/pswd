@@ -485,8 +485,10 @@
           accent-color: #a3e635;
         }
       }
+
       & .presets {
         margin-bottom: 24px;
+
         & label {
           display: block;
           margin-bottom: 8px;
@@ -494,6 +496,7 @@
           font-weight: 500;
           color: var(--color-foreground-subtle);
         }
+
         & select {
           display: block;
           width: 100%;

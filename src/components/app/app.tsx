@@ -26,6 +26,7 @@ import { presets } from '@/data/presets';
 import styles from './app.module.css';
 import { cn } from '@/helpers/styles';
 import { formatSeconds } from '@/helpers/time';
+import { useDebouncedValue } from '@/hooks/use-debounced-value';
 
 const WORDLIST = wordlist;
 
@@ -269,6 +270,7 @@ export function App() {
     generatePassword();
   }, [activeTab, generatePassword]);
 
+  const debouncedPassword = useDebouncedValue(password, 350);
   const [crackTime, setCrackTime] = useState('');
   const [strength, setStrength] = useState(0);
   const strenthColor = [
@@ -281,8 +283,8 @@ export function App() {
   ][strength];
 
   useEffect(() => {
-    if (password) {
-      const result = zxcvbn(password);
+    if (debouncedPassword && !['pin', 'diceware'].includes(activeTab)) {
+      const result = zxcvbn(debouncedPassword);
 
       setCrackTime(
         formatSeconds(
@@ -296,7 +298,7 @@ export function App() {
       setCrackTime('');
       setStrength(0);
     }
-  }, [password]);
+  }, [debouncedPassword, activeTab]);
 
   return (
     <Container>
@@ -323,7 +325,7 @@ export function App() {
         </div>
 
         <div className={styles.resultWrapper}>
-          {activeTab !== 'pin' && (
+          {!['pin', 'diceware'].includes(activeTab) && (
             <div className={styles.score}>
               <div
                 className={styles.filled}
@@ -360,7 +362,7 @@ export function App() {
           </div>
         </div>
 
-        {crackTime && activeTab !== 'pin' && (
+        {crackTime && !['pin', 'diceware'].includes(activeTab) && (
           <div className={styles.crackTime}>
             <p className={styles.time}>
               <span className={styles.label}>Crack Time:</span>
@@ -405,7 +407,7 @@ export function App() {
                   }}
                 >
                   <option disabled value="">
-                    -- Select a preset --
+                    Select a preset
                   </option>
                   {presets.map(preset => (
                     <option key={preset.id} value={preset.id}>
@@ -419,16 +421,20 @@ export function App() {
                 <div className={styles.inputs}>
                   <input
                     id="length"
-                    max="90"
-                    min="3"
+                    max={90}
+                    min={0}
                     type="number"
                     value={length}
-                    onChange={e => setLength(Number(e.target.value))}
+                    onChange={e =>
+                      setLength(
+                        Math.max(0, Math.min(90, Number(e.target.value))),
+                      )
+                    }
                   />
 
                   <Slider
                     max={90}
-                    min={3}
+                    min={0}
                     value={length}
                     onChange={value => setLength(value)}
                   />
@@ -512,16 +518,20 @@ export function App() {
                 <div className={styles.inputs}>
                   <input
                     id="count"
-                    max="20"
-                    min="3"
+                    max={20}
+                    min={0}
                     type="number"
                     value={wordCount}
-                    onChange={e => setWordCount(Number(e.target.value))}
+                    onChange={e =>
+                      setWordCount(
+                        Math.max(0, Math.min(20, Number(e.target.value))),
+                      )
+                    }
                   />
 
                   <Slider
                     max={20}
-                    min={3}
+                    min={0}
                     value={wordCount}
                     onChange={value => setWordCount(value)}
                   />
@@ -599,16 +609,22 @@ export function App() {
                 <div className={styles.inputs}>
                   <input
                     id="count"
-                    max="20"
-                    min="3"
+                    max={20}
+                    min={0}
                     type="number"
                     value={pinLength}
-                    onChange={e => setPinLength(Number(e.target.value))}
+                    onChange={e =>
+                      setPinLength(
+                        Number(
+                          Math.max(0, Math.min(20, Number(e.target.value))),
+                        ),
+                      )
+                    }
                   />
 
                   <Slider
                     max={20}
-                    min={3}
+                    min={0}
                     value={pinLength}
                     onChange={value => setPinLength(value)}
                   />
