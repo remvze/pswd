@@ -30,7 +30,7 @@ import Matrix from './matrix.astro';
 <style>
   .hero {
     position: relative;
-    padding: 100px 0 40px;
+    padding: 100px 0 0;
     text-align: center;
 
     & .logo {
@@ -130,7 +130,7 @@ import Matrix from './matrix.astro';
     }
 
     & .divider {
-      width: 140px;
+      width: 200px;
       height: 1px;
       margin: 0 auto;
       background: linear-gradient(
@@ -143,6 +143,7 @@ import Matrix from './matrix.astro';
         var(--color-neutral-100),
         transparent
       );
+      transform: translateY(1px);
     }
   }
 </style>
