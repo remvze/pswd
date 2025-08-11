@@ -1,5 +1,6 @@
 .generator {
   & .tabs {
+    position: relative;
     display: flex;
     column-gap: 8px;
     align-items: center;
@@ -8,6 +9,27 @@
     margin-bottom: 16px;
     border: 1px solid var(--color-neutral-100);
     border-radius: 12px;
+
+    &::before {
+      position: absolute;
+      top: -1px;
+      left: 50%;
+      width: 80%;
+      height: 1px;
+      margin: 0 auto;
+      content: '';
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--color-neutral-100),
+        var(--color-neutral-300),
+        var(--color-neutral-500),
+        var(--color-neutral-300),
+        var(--color-neutral-100),
+        transparent
+      );
+      transform: translateX(-50%);
+    }
 
     & button {
       display: flex;

@@ -1,12 +1,13 @@
 ---
 import { CipherText } from './cipher-text';
 import { Container } from './container';
-import Matrix from './matrix.astro';
 ---
 
-<Container>
-  <section class="hero">
-    <Matrix />
+<section class="hero">
+  <Container>
+    <div class="moon">
+      <div class="moon-mask"></div>
+    </div>
     <div class="title">
       <div class="logo"><img alt="PSWD Logo" src="/logo.svg" /></div>
       <h1>
@@ -20,18 +21,55 @@ import Matrix from './matrix.astro';
         ><CipherText client:load text="PSWD!" /></span
       >
     </p>
-    <div class="circle-wrapper">
-      <div class="circle"></div>
-    </div>
-    <div class="divider"></div>
-  </section>
-</Container>
+  </Container>
+</section>
 
 <style>
   .hero {
     position: relative;
-    padding: 100px 0 0;
+    padding: 100px 0 40px;
+    overflow-x: hidden;
     text-align: center;
+
+    & .moon {
+      position: absolute;
+      top: 48px;
+      left: 50%;
+      z-index: -2;
+      transform: translateX(-50%);
+
+      & .moon-mask {
+        width: 100vw;
+        max-width: 450px;
+        height: auto;
+        aspect-ratio: 2 / 1;
+        background: var(--color-neutral-100);
+        border-radius: 9999px 9999px 0 0;
+        box-shadow:
+          inset 0 2px 0 var(--color-neutral-800),
+          inset 0 2px 10px var(--color-neutral-600);
+        opacity: 0.4;
+        mask-image: linear-gradient(#000, transparent);
+      }
+
+      &::before {
+        position: absolute;
+        inset: -10px;
+        content: '';
+        border: 1px solid var(--color-neutral-300);
+        border-radius: 9999px 9999px 0 0;
+        mask-image: linear-gradient(#000, transparent);
+      }
+
+      &::after {
+        position: absolute;
+        inset: -20px;
+        content: '';
+        border: 1px solid var(--color-neutral-100);
+        border-radius: 9999px 9999px 0 0;
+        mask-image: linear-gradient(#000, transparent);
+      }
+    }
 
     & .logo {
       display: flex;
@@ -111,39 +149,6 @@ import Matrix from './matrix.astro';
         font-family: var(--font-mono);
         color: var(--color-foreground-subtle);
       }
-    }
-
-    & .circle-wrapper {
-      padding-top: 4px;
-      margin: 0;
-      overflow-y: hidden;
-
-      & .circle {
-        width: 60px;
-        height: 30px;
-        margin: 0 auto;
-        background: linear-gradient(transparent, var(--color-neutral-400));
-        filter: blur(10px);
-        border-radius: 1000px 1000px 0 0;
-        opacity: 0.25;
-      }
-    }
-
-    & .divider {
-      width: 200px;
-      height: 1px;
-      margin: 0 auto;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        var(--color-neutral-100),
-        var(--color-neutral-300),
-        var(--color-neutral-500),
-        var(--color-neutral-300),
-        var(--color-neutral-100),
-        transparent
-      );
-      transform: translateY(1px);
     }
   }
 </style>
