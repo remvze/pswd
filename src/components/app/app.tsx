@@ -6,7 +6,6 @@ import {
   FaRegEye,
   FaRegEyeSlash,
 } from 'react-icons/fa6';
-import zxcvbn from 'zxcvbn';
 
 import { Container } from '../container';
 import { Slider } from '../slider';
@@ -25,8 +24,8 @@ import { presets } from '@/data/presets';
 
 import styles from './app.module.css';
 import { cn } from '@/helpers/styles';
-import { formatSeconds } from '@/helpers/time';
 import { useDebouncedValue } from '@/hooks/use-debounced-value';
+import { getPasswordStrength } from '@/helpers/password';
 
 const WORDLIST = wordlist;
 
@@ -271,7 +270,6 @@ export function App() {
   }, [activeTab, generatePassword]);
 
   const debouncedPassword = useDebouncedValue(password, 350);
-  const [crackTime, setCrackTime] = useState('');
   const [strength, setStrength] = useState(0);
   const strenthColor = [
     'transparent',
@@ -284,18 +282,10 @@ export function App() {
 
   useEffect(() => {
     if (debouncedPassword && !['pin', 'diceware'].includes(activeTab)) {
-      const result = zxcvbn(debouncedPassword);
+      const result = getPasswordStrength(debouncedPassword);
 
-      setCrackTime(
-        formatSeconds(
-          result.crack_times_seconds
-            .offline_fast_hashing_1e10_per_second as number,
-        ),
-      );
-
-      setStrength(result.score + 1);
+      setStrength(result);
     } else {
-      setCrackTime('');
       setStrength(0);
     }
   }, [debouncedPassword, activeTab]);
@@ -361,26 +351,6 @@ export function App() {
             </button>
           </div>
         </div>
-
-        {crackTime && !['pin', 'diceware'].includes(activeTab) && (
-          <div className={styles.crackTime}>
-            <p className={styles.time}>
-              <span className={styles.label}>Crack Time:</span>
-              <span className={styles.truncate}>
-                <span className={styles.mono}>{crackTime}</span>
-              </span>
-            </p>
-
-            <p className={styles.attempts}>
-              <span className={styles.mono}>
-                <span className={styles.accent}>*</span> 10<sup>10</sup>
-              </span>{' '}
-              <span className={styles.text}>
-                hash attempts <span>/ second</span>
-              </span>
-            </p>
-          </div>
-        )}
 
         {activeTab === 'normal' && (
           <div className={styles.tabContent}>
