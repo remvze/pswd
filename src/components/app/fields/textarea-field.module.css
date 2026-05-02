@@ -1,0 +1,33 @@
+.field {
+  margin-top: 16px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: var(--font-sm);
+  font-weight: 500;
+  color: var(--color-foreground-subtle);
+}
+
+.field label span {
+  font-weight: 400;
+  color: var(--color-foreground-subtler);
+}
+
+.field textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 160px;
+  min-height: 160px;
+  padding: 8px;
+  font-size: var(--font-sm);
+  font-weight: 500;
+  color: var(--color-foreground);
+  resize: vertical;
+  background-color: var(--color-neutral-100);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 8px;
+  outline: none;
+}

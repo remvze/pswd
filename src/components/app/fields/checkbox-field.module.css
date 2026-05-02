@@ -1,0 +1,11 @@
+.checkbox {
+  display: flex;
+  column-gap: 8px;
+  align-items: center;
+  font-size: var(--font-sm);
+  color: var(--color-foreground-subtle);
+}
+
+.checkbox:not(:last-of-type) {
+  margin-bottom: 12px;
+}

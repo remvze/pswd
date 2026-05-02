@@ -1,607 +1,111 @@
-import { useEffect, useState, useCallback, useMemo } from 'react';
-import {
-  FaRegCopy,
-  FaArrowRotateLeft,
-  FaCheck,
-  FaRegEye,
-  FaRegEyeSlash,
-} from 'react-icons/fa6';
-
-import { Container } from '../container';
-import { Slider } from '../slider';
-import { Checkbox } from '../checkbox';
-
+import { Container } from '@/components/container';
 import { useCopy } from '@/hooks/use-copy';
-import { useLocalStorage } from '@/hooks/use-local-storage';
-import {
-  getSecureRandomInt,
-  getSecureRandomIntInRange,
-} from '@/helpers/crypto';
-import { capitalizeString } from '@/helpers/string';
+import { useGeneratorSettings } from '@/hooks/use-generator-settings';
+import { usePasswordGenerator } from '@/hooks/use-password-generator';
+import { useUrlParamsInit } from '@/hooks/use-url-params-init';
 
-import { wordlist } from '@/data/wordlist';
-import { presets } from '@/data/presets';
-
+import { DicewareTabPanel } from './diceware-tab-panel';
+import { GeneratorTabs } from './generator-tabs';
+import { NormalTabPanel } from './normal-tab-panel';
+import { PasswordResult } from './password-result';
+import { PinTabPanel } from './pin-tab-panel';
 import styles from './app.module.css';
-import { cn } from '@/helpers/styles';
-import { useDebouncedValue } from '@/hooks/use-debounced-value';
-import { getPasswordStrength } from '@/helpers/password';
-
-const WORDLIST = wordlist;
 
 export function App() {
-  const [activeTab, setActiveTab] = useLocalStorage<
-    'normal' | 'diceware' | 'pin'
-  >('pswd-active-tab', 'normal');
   const { copy, copying } = useCopy();
-  const [showPassword, setShowPassword] = useLocalStorage(
-    'pswd-show-password',
-    true,
-  );
+  const settings = useGeneratorSettings();
 
-  const [password, setPassword] = useState('');
-  const [length, setLength] = useLocalStorage('pswd-length', 12);
-  const [includeUpper, setIncludeUpper] = useLocalStorage(
-    'pswd-include-upper',
-    true,
-  );
-  const [includeLower, setIncludeLower] = useLocalStorage(
-    'pswd-include-lower',
-    true,
-  );
-  const [includeNumbers, setIncludeNumbers] = useLocalStorage(
-    'pswd-include-numbers',
-    true,
-  );
-  const [includeSymbols, setIncludeSymbols] = useLocalStorage(
-    'pswd-include-symbols',
-    true,
-  );
-  const [excludeSimilar, setExcludeSimilar] = useLocalStorage(
-    'pswd-exclude-similar',
-    false,
-  );
-  const [customSymbols, setCustomSymbols] = useLocalStorage(
-    'pswd-custom-symbols',
-    '',
-  );
-  const [excludeSymbols, setExcludeSymbols] = useLocalStorage(
-    'pswd-exclude-symbols',
-    '',
-  );
+  useUrlParamsInit({
+    setActiveTab: settings.setActiveTab,
+    setLength: settings.setLength,
+    setWordCount: settings.setWordCount,
+  });
 
-  const [wordCount, setWordCount] = useLocalStorage('pswd-word-count', 6);
-  const [separator, setSeparator] = useLocalStorage('pswd-separator', 'space');
-  const [capitalize, setCapitalize] = useLocalStorage('pswd-capitalize', false);
-  const [randomCapitalization, setRandomCapitalization] = useLocalStorage(
-    'pswd-random-capitalization',
-    false,
-  );
-  const [randomNumberBeginning, setRandomNumberBeginning] = useLocalStorage(
-    'pswd-random-number-beginning',
-    false,
-  );
-  const [randomNumberEnd, setRandomNumberEnd] = useLocalStorage(
-    'pswd-random-number-end',
-    false,
-  );
-  const [customWordlist, setCustomWordlist] = useLocalStorage(
-    'pswd-custom-wordlist',
-    '',
-  );
-
-  const [pinLength, setPinLength] = useLocalStorage('pswd-pin-length', 6);
-
-  const [selectedPresetId, setSelectedPresetId] = useState<string | null>(null);
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const length = Number(urlParams.get('length'));
-    const words = Number(urlParams.get('words'));
-    const tab = urlParams.get('tab');
-
-    if (tab && ['normal', 'diceware', 'pin'].includes(tab)) {
-      setActiveTab(tab as 'normal' | 'diceware' | 'pin');
-    } else if (length > 0) {
-      setLength(length);
-      setActiveTab('normal');
-    } else if (words > 0) {
-      setWordCount(words);
-      setActiveTab('diceware');
-    }
-  }, [setLength, setActiveTab, setWordCount]);
-
-  const wordlist = useMemo(() => {
-    const custom = customWordlist
-      .split('\n')
-      .map(item => item.trim())
-      .filter(item => !!item);
-
-    if (custom.length > 0) return custom;
-    return WORDLIST;
-  }, [customWordlist]);
-
-  const UPPERCASE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const LOWERCASE = 'abcdefghijklmnopqrstuvwxyz';
-  const NUMBERS = '0123456789';
-  const SYMBOLS = '!@#$%^&*()_+-=[]{}|;:,.<>?';
-
-  const SIMILAR_CHARACTERS = 'Il1O0';
-
-  const generatePassword = useCallback(() => {
-    if (activeTab === 'normal') {
-      let characterSet = '';
-
-      if (includeUpper) characterSet += UPPERCASE;
-      if (includeLower) characterSet += LOWERCASE;
-      if (includeNumbers) characterSet += NUMBERS;
-      if (includeSymbols) characterSet += SYMBOLS;
-
-      if (customSymbols) {
-        characterSet += customSymbols;
-      }
-
-      let toExclude = '';
-
-      if (excludeSimilar) {
-        toExclude += SIMILAR_CHARACTERS;
-      }
-
-      if (excludeSymbols) {
-        toExclude += excludeSymbols;
-      }
-
-      if (toExclude) {
-        const escaped = toExclude.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
-        const regex = new RegExp(`[${escaped}]`, 'g');
-
-        characterSet = characterSet.replace(regex, '');
-      }
-
-      if (characterSet.length === 0) {
-        setPassword('');
-        return;
-      }
-
-      const passwordCharacters = [];
-      const charsetLength = characterSet.length;
-
-      for (let i = 0; i < length; i++) {
-        const randomIndex = getSecureRandomInt(charsetLength);
-        passwordCharacters.push(characterSet[randomIndex]);
-      }
-
-      const newPassword = passwordCharacters.join('');
-      setPassword(newPassword);
-    } else if (activeTab === 'diceware') {
-      if (wordlist.length === 0) {
-        alert('Wordlist is empty. Please provide a valid wordlist.');
-        return;
-      }
-
-      let words: Array<string | number | undefined> = [];
-      const wordlistLength = wordlist.length;
-
-      for (let i = 0; i < wordCount; i++) {
-        const index = getSecureRandomInt(wordlistLength);
-        const word = wordlist[index];
-
-        words.push(capitalize ? capitalizeString(word) : word);
-      }
-
-      if (randomCapitalization) {
-        words = words.map(word => {
-          const newWord = String(word)
-            .split('')
-            .map(letter =>
-              Math.random() > 0.5 ? letter.toLowerCase() : letter.toUpperCase(),
-            )
-            .join('');
-
-          return newWord;
-        });
-      }
-
-      if (randomNumberBeginning) {
-        const randomNumber = getSecureRandomIntInRange(100, 999);
-
-        words.unshift(randomNumber);
-      }
-
-      if (randomNumberEnd) {
-        const randomNumber = getSecureRandomIntInRange(100, 999);
-
-        words.push(randomNumber);
-      }
-
-      if (separator === 'symbol') {
-        const last = words.pop();
-
-        words = words.map(word => {
-          const randomSymbol = SYMBOLS[getSecureRandomInt(SYMBOLS.length)];
-
-          return word + randomSymbol;
-        });
-
-        words.push(last);
-
-        setPassword(words.filter(Boolean).join(''));
-      } else {
-        setPassword(
-          words.join(
-            separator === 'space' ? ' ' : separator === 'dash' ? '-' : '',
-          ),
-        );
-      }
-    } else if (activeTab === 'pin') {
-      const passwordCharacters = [];
-      const charsetLength = NUMBERS.length;
-
-      for (let i = 0; i < pinLength; i++) {
-        const randomIndex = getSecureRandomInt(charsetLength);
-        passwordCharacters.push(NUMBERS[randomIndex]);
-      }
-
-      const newPassword = passwordCharacters.join('');
-      setPassword(newPassword);
-    }
-  }, [
-    pinLength,
-    includeUpper,
-    randomCapitalization,
-    randomNumberBeginning,
-    randomNumberEnd,
-    includeLower,
-    includeNumbers,
-    includeSymbols,
-    length,
-    wordCount,
-    activeTab,
-    separator,
-    excludeSimilar,
-    customSymbols,
-    capitalize,
-    excludeSymbols,
-    wordlist,
-  ]);
-
-  useEffect(() => {
-    generatePassword();
-  }, [activeTab, generatePassword]);
-
-  const debouncedPassword = useDebouncedValue(password, 350);
-  const [strength, setStrength] = useState(0);
-  const strenthColor = [
-    'transparent',
-    '#ef4444',
-    '#f97316',
-    '#eab308',
-    '#65a30d',
-    '#22c55e',
-  ][strength];
-
-  useEffect(() => {
-    if (debouncedPassword && !['pin', 'diceware'].includes(activeTab)) {
-      const result = getPasswordStrength(debouncedPassword);
-
-      setStrength(result);
-    } else {
-      setStrength(0);
-    }
-  }, [debouncedPassword, activeTab]);
+  const {
+    generatePassword,
+    isStrengthVisible,
+    password,
+    strength,
+    strengthColor,
+  } = usePasswordGenerator(settings);
 
   return (
     <Container>
       <div className={styles.generator}>
-        <div className={styles.tabs}>
-          <button
-            className={cn(activeTab === 'normal' && styles.active)}
-            onClick={() => setActiveTab('normal')}
-          >
-            Password
-          </button>
-          <button
-            className={cn(activeTab === 'diceware' && styles.active)}
-            onClick={() => setActiveTab('diceware')}
-          >
-            Passphrase
-          </button>
-          <button
-            className={cn(activeTab === 'pin' && styles.active)}
-            onClick={() => setActiveTab('pin')}
-          >
-            Pin
-          </button>
-        </div>
+        <GeneratorTabs
+          activeTab={settings.activeTab}
+          onChange={settings.setActiveTab}
+        />
 
-        <div className={styles.resultWrapper}>
-          {!['pin', 'diceware'].includes(activeTab) && (
-            <div className={styles.score}>
-              <div
-                className={styles.filled}
-                style={{
-                  background: strenthColor,
-                  height: `${(strength / 5) * 100}%`,
-                }}
-              />
-            </div>
-          )}
+        <PasswordResult
+          copying={copying}
+          isStrengthVisible={isStrengthVisible}
+          password={password}
+          showPassword={settings.showPassword}
+          strength={strength}
+          strengthColor={strengthColor}
+          onCopy={() => copy(password)}
+          onGenerate={generatePassword}
+          onToggleVisibility={() => settings.setShowPassword(prev => !prev)}
+        />
 
-          <div className={styles.result}>
-            <input
-              readOnly
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-            />
-
-            <button
-              className={styles.hide}
-              onClick={() => setShowPassword(prev => !prev)}
-            >
-              {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
-            </button>
-            <button className={styles.copy} onClick={() => copy(password)}>
-              {copying ? <FaCheck /> : <FaRegCopy />}
-            </button>
-            <button
-              className={styles.generate}
-              onClick={() => generatePassword()}
-            >
-              <FaArrowRotateLeft />
-            </button>
-          </div>
-        </div>
-
-        {activeTab === 'normal' && (
-          <div className={styles.tabContent}>
-            <div className={styles.shineTop} />
-            <div className={styles.shineBottom} />
-            <div className={styles.controls}>
-              <div className={styles.presets}>
-                <label htmlFor="presetSelect">Presets:</label>
-                <select
-                  id="presetSelect"
-                  value={selectedPresetId || ''}
-                  onChange={e => {
-                    const preset = presets.find(p => p.id === e.target.value);
-                    setSelectedPresetId(e.target.value);
-                    if (!preset) return;
-                    setLength(preset.length);
-                    setIncludeUpper(preset.includeUpper);
-                    setIncludeLower(preset.includeLower);
-                    setIncludeNumbers(preset.includeNumbers);
-                    setIncludeSymbols(preset.includeSymbols);
-                    setExcludeSimilar(preset.excludeSimilar || false);
-                    setCustomSymbols(preset.customSymbols || '');
-                    setExcludeSymbols(preset.excludeSymbols || '');
-                  }}
-                >
-                  <option disabled value="">
-                    Select a preset
-                  </option>
-                  {presets.map(preset => (
-                    <option key={preset.id} value={preset.id}>
-                      {preset.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className={styles.length}>
-                <label htmlFor="length">Password Length:</label>
-                <div className={styles.inputs}>
-                  <input
-                    id="length"
-                    max={90}
-                    min={0}
-                    type="number"
-                    value={length}
-                    onChange={e =>
-                      setLength(
-                        Math.max(0, Math.min(90, Number(e.target.value))),
-                      )
-                    }
-                  />
-
-                  <Slider
-                    max={90}
-                    min={0}
-                    value={length}
-                    onChange={value => setLength(value)}
-                  />
-                </div>
-              </div>
-
-              <label className={styles.checkbox}>
-                <Checkbox
-                  checked={includeUpper}
-                  onChange={checked => setIncludeUpper(checked)}
-                />
-                Include Uppercase Letters
-              </label>
-
-              <label className={styles.checkbox}>
-                <Checkbox
-                  checked={includeLower}
-                  onChange={checked => setIncludeLower(checked)}
-                />
-                Include Lowercase Letters
-              </label>
-
-              <label className={styles.checkbox}>
-                <Checkbox
-                  checked={includeNumbers}
-                  onChange={checked => setIncludeNumbers(checked)}
-                />
-                Include Numbers
-              </label>
-
-              <label className={styles.checkbox}>
-                <Checkbox
-                  checked={includeSymbols}
-                  onChange={checked => setIncludeSymbols(checked)}
-                />
-                Include Symbols
-              </label>
-
-              <label className={styles.checkbox}>
-                <Checkbox
-                  checked={excludeSimilar}
-                  onChange={checked => setExcludeSimilar(checked)}
-                />
-                Exclude Similar Characters (e.g., l, 1, O, 0)
-              </label>
-
-              <div className={styles.custom}>
-                <label htmlFor="customSymbols">Custom Symbols:</label>
-                <input
-                  id="customSymbols"
-                  placeholder="e.g., @#$%"
-                  type="text"
-                  value={customSymbols}
-                  onChange={e => setCustomSymbols(e.target.value)}
-                />
-              </div>
-
-              <div className={styles.custom}>
-                <label htmlFor="excludeSymbols">Exclude Symbols:</label>
-                <input
-                  id="excludeSymbols"
-                  placeholder="e.g., /\?"
-                  type="text"
-                  value={excludeSymbols}
-                  onChange={e => setExcludeSymbols(e.target.value)}
-                />
-              </div>
-            </div>
-          </div>
+        {settings.activeTab === 'normal' && (
+          <NormalTabPanel
+            customSymbols={settings.customSymbols}
+            excludeSimilar={settings.excludeSimilar}
+            excludeSymbols={settings.excludeSymbols}
+            includeLower={settings.includeLower}
+            includeNumbers={settings.includeNumbers}
+            includeSymbols={settings.includeSymbols}
+            includeUpper={settings.includeUpper}
+            length={settings.length}
+            selectedPresetId={settings.selectedPresetId}
+            applyPreset={patch => {
+              settings.setLength(patch.length);
+              settings.setIncludeUpper(patch.includeUpper);
+              settings.setIncludeLower(patch.includeLower);
+              settings.setIncludeNumbers(patch.includeNumbers);
+              settings.setIncludeSymbols(patch.includeSymbols);
+              settings.setExcludeSimilar(patch.excludeSimilar);
+              settings.setCustomSymbols(patch.customSymbols);
+              settings.setExcludeSymbols(patch.excludeSymbols);
+            }}
+            onCustomSymbolsChange={settings.setCustomSymbols}
+            onExcludeSimilarChange={settings.setExcludeSimilar}
+            onExcludeSymbolsChange={settings.setExcludeSymbols}
+            onIncludeLowerChange={settings.setIncludeLower}
+            onIncludeNumbersChange={settings.setIncludeNumbers}
+            onIncludeSymbolsChange={settings.setIncludeSymbols}
+            onIncludeUpperChange={settings.setIncludeUpper}
+            onLengthChange={settings.setLength}
+            onPresetChange={settings.setSelectedPresetId}
+          />
         )}
 
-        {activeTab === 'diceware' && (
-          <div className={styles.tabContent}>
-            <div className={styles.shineTop} />
-            <div className={styles.shineBottom} />
-
-            <div className={styles.controls}>
-              <div className={styles.length}>
-                <label htmlFor="count">Number of Words:</label>
-
-                <div className={styles.inputs}>
-                  <input
-                    id="count"
-                    max={20}
-                    min={0}
-                    type="number"
-                    value={wordCount}
-                    onChange={e =>
-                      setWordCount(
-                        Math.max(0, Math.min(20, Number(e.target.value))),
-                      )
-                    }
-                  />
-
-                  <Slider
-                    max={20}
-                    min={0}
-                    value={wordCount}
-                    onChange={value => setWordCount(value)}
-                  />
-                </div>
-              </div>
-
-              <label className={styles.checkbox}>
-                <Checkbox
-                  checked={capitalize}
-                  onChange={checked => setCapitalize(checked)}
-                />
-                Capitalize Words
-              </label>
-
-              <label className={styles.checkbox}>
-                <Checkbox
-                  checked={randomCapitalization}
-                  onChange={checked => setRandomCapitalization(checked)}
-                />
-                Randomly Capitalize Letters
-              </label>
-
-              <label className={styles.checkbox}>
-                <Checkbox
-                  checked={randomNumberBeginning}
-                  onChange={checked => setRandomNumberBeginning(checked)}
-                />
-                Add Random Numbers At The Beginning
-              </label>
-
-              <label className={styles.checkbox}>
-                <Checkbox
-                  checked={randomNumberEnd}
-                  onChange={checked => setRandomNumberEnd(checked)}
-                />
-                Add Random Numbers At The End
-              </label>
-
-              <div className={styles.separator}>
-                <label htmlFor="separator">Word Separator:</label>
-                <select
-                  value={separator}
-                  onChange={e => setSeparator(e.target.value)}
-                >
-                  <option value="space">Space</option>
-                  <option value="symbol">Random Symbol</option>
-                  <option value="dash">Dash</option>
-                  <option value="none">None</option>
-                </select>
-              </div>
-
-              <div className={styles.customWordlist}>
-                <label htmlFor="wordlist">
-                  Custom Wordlist <span>(separate with breaklines)</span>:
-                </label>
-                <textarea
-                  id="wordlist"
-                  value={customWordlist}
-                  onChange={e => setCustomWordlist(e.target.value)}
-                />
-              </div>
-            </div>
-          </div>
+        {settings.activeTab === 'diceware' && (
+          <DicewareTabPanel
+            capitalize={settings.capitalize}
+            customWordlist={settings.customWordlist}
+            randomCapitalization={settings.randomCapitalization}
+            randomNumberBeginning={settings.randomNumberBeginning}
+            randomNumberEnd={settings.randomNumberEnd}
+            separator={settings.separator}
+            wordCount={settings.wordCount}
+            onCapitalizeChange={settings.setCapitalize}
+            onCustomWordlistChange={settings.setCustomWordlist}
+            onRandomCapitalizationChange={settings.setRandomCapitalization}
+            onRandomNumberBeginningChange={settings.setRandomNumberBeginning}
+            onRandomNumberEndChange={settings.setRandomNumberEnd}
+            onSeparatorChange={settings.setSeparator}
+            onWordCountChange={settings.setWordCount}
+          />
         )}
 
-        {activeTab === 'pin' && (
-          <div className={styles.tabContent}>
-            <div className={styles.shineTop} />
-            <div className={styles.shineBottom} />
-
-            <div className={styles.controls}>
-              <div className={styles.length} style={{ marginBottom: 0 }}>
-                <label htmlFor="length">Pin Length:</label>
-
-                <div className={styles.inputs}>
-                  <input
-                    id="count"
-                    max={20}
-                    min={0}
-                    type="number"
-                    value={pinLength}
-                    onChange={e =>
-                      setPinLength(
-                        Number(
-                          Math.max(0, Math.min(20, Number(e.target.value))),
-                        ),
-                      )
-                    }
-                  />
-
-                  <Slider
-                    max={20}
-                    min={0}
-                    value={pinLength}
-                    onChange={value => setPinLength(value)}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+        {settings.activeTab === 'pin' && (
+          <PinTabPanel
+            pinLength={settings.pinLength}
+            onPinLengthChange={settings.setPinLength}
+          />
         )}
       </div>
 
