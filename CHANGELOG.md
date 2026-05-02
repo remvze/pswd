@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/remvze/pswd/compare/v1.0.1...v1.1.0) (2026-05-02)
+
+
+### 🐛 Bug Fixes
+
+* linter ([0f50386](https://github.com/remvze/pswd/commit/0f50386f72c8e2409d0e5d947b0824bf9c3b04e8))
+
+
+### 💄 Styling
+
+* better matrix coloring ([c196b06](https://github.com/remvze/pswd/commit/c196b06ecfaa17832ec278b065eebf758a930e77))
+* increase light shadow ([71bc5b4](https://github.com/remvze/pswd/commit/71bc5b48b72f7a2954bf1c9928d36cc2ae717388))
+* minor change ([6be87d3](https://github.com/remvze/pswd/commit/6be87d39888d4f598b65b918713e50e7213fa284))
+* minor improvement ([f99c930](https://github.com/remvze/pswd/commit/f99c93001959fb3116bf13ee5e74b74fa62d8e6d))
+
+
+### ✨ Features
+
+* add bcrypt hashing functionality and new hash tab in app component ([4367ec5](https://github.com/remvze/pswd/commit/4367ec5ecc7ed0f376211f3e1dc3c948aa936535))
+* add password presets and enhance styling ([ab7e6a2](https://github.com/remvze/pswd/commit/ab7e6a2de75795af467b95b340cb60e0564f0514))
+* improve header ([e4ac9da](https://github.com/remvze/pswd/commit/e4ac9da63f4a007e6498e7b1172986eb12a6c6f7))
+* minor improvements ([cfb766f](https://github.com/remvze/pswd/commit/cfb766fb220365b0f88c97be69d6afbaeee683ce))
+* remove zxcvbn ([8bfdabf](https://github.com/remvze/pswd/commit/8bfdabfe1527e7131f3b65dfcdbacd60b4b5e7da))
+* select tab based on URL param (?tab=) ([d4b4f5e](https://github.com/remvze/pswd/commit/d4b4f5ec36d6ac2effa695147caa691a48a99ba0))
+
+
+### ♻️ Code Refactoring
+
+* break main component into smaller components ([511be05](https://github.com/remvze/pswd/commit/511be0558aa89e603407e1106dcce467fa6cfdfa))
+* remove bcryptjs dependency and clean up app component ([f2c84b7](https://github.com/remvze/pswd/commit/f2c84b7528dc7908839ce33e0531fb04a3f650ed))
+* reorganize preset configuration for clarity and consistency ([9eea24c](https://github.com/remvze/pswd/commit/9eea24ca4929c1fd90bbf4f5467b15baac700af5))
+* standardize formatting and improve readability in app component ([3ff4c9b](https://github.com/remvze/pswd/commit/3ff4c9b4ec9994ee86d31bbc48d3725b0822d612))
+
 ### [1.0.1](https://github.com/remvze/pswd/compare/v1.0.0...v1.0.1) (2025-03-17)
 
 
