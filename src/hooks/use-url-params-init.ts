@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import type { GeneratorTab } from '@/lib/generator-types';
 
@@ -29,4 +29,17 @@ export function useUrlParamsInit({
       setActiveTab('diceware');
     }
   }, [setLength, setActiveTab, setWordCount]);
+
+  const selectTab = useCallback(
+    (tab: GeneratorTab) => {
+      setActiveTab(tab);
+
+      const url = new URL(window.location.href);
+      url.searchParams.set('tab', tab);
+      window.history.replaceState(null, '', url);
+    },
+    [setActiveTab],
+  );
+
+  return { selectTab };
 }

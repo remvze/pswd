@@ -15,7 +15,7 @@ export function App() {
   const { copy, copying } = useCopy();
   const settings = useGeneratorSettings();
 
-  useUrlParamsInit({
+  const { selectTab } = useUrlParamsInit({
     setActiveTab: settings.setActiveTab,
     setLength: settings.setLength,
     setWordCount: settings.setWordCount,
@@ -32,10 +32,7 @@ export function App() {
   return (
     <Container>
       <div className={styles.generator}>
-        <GeneratorTabs
-          activeTab={settings.activeTab}
-          onChange={settings.setActiveTab}
-        />
+        <GeneratorTabs activeTab={settings.activeTab} onChange={selectTab} />
 
         <PasswordResult
           copying={copying}
